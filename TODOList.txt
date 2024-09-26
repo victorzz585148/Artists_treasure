@@ -1,7 +1,10 @@
 2024/09/23
 1.匯入資料測試Database&自動編號是否正常運作
-2.修改Excel表格，以Database為主
+2.修改Excel表格，以Database為主--暫時修改完成2024/09/27
 
 2024/09/26
-1.修改原檔，不要用model file
-2.修改尺寸的資料型別
+1.修改原檔，不要用model file--已改成VSCODE2024/09/27
+2.修改尺寸的資料型別--改成VARCHAR(20)2024/09/27
+
+2024/09/27
+1.修改TABLE-COKKECTION'S COL_DPRICE TO COL_PRICE
