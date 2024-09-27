@@ -8,3 +8,5 @@
 
 2024/09/27
 1.修改TABLE-COKKECTION'S COL_DPRICE TO COL_PRICE
+2.需要新增測試資料的csv檔案
+3.啟用del_index.sql
