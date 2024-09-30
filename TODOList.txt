@@ -1,12 +1,28 @@
 2024/09/23
-1.匯入資料測試Database&自動編號是否正常運作
-2.修改Excel表格，以Database為主--暫時修改完成2024/09/27
+1.匯入資料測試Database&自動編號是否正常運作--轉移至'2024/10/01' 2024/10/01 03:48am
+2.修改Excel表格，以Database為主--暫時修改完成 2024/09/27
 
 2024/09/26
-1.修改原檔，不要用model file--已改成VSCODE2024/09/27
-2.修改尺寸的資料型別--改成VARCHAR(20)2024/09/27
+1.修改原檔，不要用model file--已改成VSCODE 2024/09/27
+2.修改尺寸的資料型別--改成VARCHAR(20) 2024/09/27
 
 2024/09/27
-1.修改TABLE-COKKECTION'S COL_DPRICE TO COL_PRICE
-2.需要新增測試資料的csv檔案
-3.啟用del_index.sql
+1.修改TABLE-COKKECTION'S COL_DPRICE TO COL_PRICE--已修改 2024/10/01 12:22am
+2.需要新增測試資料的csv檔案--確定原csv檔無法使用，且暫時不使用csv檔 2024/10/01 12:21am
+3.設計&導入&測試del_index.sql
+
+2024/10/01
+WHAT I DID?
+1.重新設計觸發器，且進行測試。
+    測試內容:
+        1.是否按照順序編號?
+        2.是否"不"跳號?
+        3.是否刪除時SEQUENCE同時刪除?
+        4.id有1,2,3，若刪除1會生成4嗎?
+        5.延上述，若刪除4會生成4嗎?
+    1.ARTWORK_TRIGGER.SQL--CLEAR
+    2.COLLECTION_TRIGGER.SQL--CLEAR
+WHAT I NEED TO DO?
+1.接著設計虛擬資料
+2.接著把沒測試完的TRIGGER測試完
+3.之後將database&table獨立出來一個.sql檔案
