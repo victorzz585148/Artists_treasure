@@ -1,3 +1,4 @@
+-- Active: 1727416347752@@127.0.0.1@3306@artists_treasure
 CREATE TABLE IF NOT EXISTS CT_sequence (
     seq INT NOT NULL PRIMARY KEY
 )

@@ -13,16 +13,27 @@
 
 2024/10/01
 WHAT I DID?
-1.重新設計觸發器，且進行測試。
-    測試內容:
+1.重新設計觸發器，且進行測試。--ALL CLEAR 2024/10/01 11:49am 
+    1.測試內容:
         1.是否按照順序編號?
         2.是否"不"跳號?
         3.是否刪除時SEQUENCE同時刪除?
         4.id有1,2,3，若刪除1會生成4嗎?
         5.延上述，若刪除4會生成4嗎?
-    1.ARTWORK_TRIGGER.SQL--CLEAR
-    2.COLLECTION_TRIGGER.SQL--CLEAR
+    2.測試TRIGGER:
+        1.ARTWORK_TRIGGER.sql--CLEAR 2024/10/01 03:48am
+        2.COLLECTION_TRIGGER.sql--CLEAR 2024/10/01 03:48am
+        3.CONTEST_TRIGGER.sql--CLEAR 2024/10/01 10:37am
+        4.CONTESTDETAIL_TRIGGER.sql--CLEAR 2024/10/01 10:48am
+        5.PLACE_TRIGGER.sql--CLEAR 2024/10/01 11:08am
+        6.TRADE_TRIGGER.sql--CLEAR 2024/10/01 11:24am
+        7.TRADEDETAIL_TRIGGER.sql--CLEAR 2024/10/01 11:24am
+        8.THEME_TRIGGER.sql--CLEAR 2024/10/01 11:38am
+        9.EXHIBITION_TRIGGER.sql--CLEAR 2024/10/01 11:49am
+        10.EXHIBITIONDETAIL _TRIGGER.sql--CLEAR 2024/10/01 11:49am 
+2.tradedetail debug, check未正確設置，當下已修正完畢
 WHAT I NEED TO DO?
 1.接著設計虛擬資料
 2.接著把沒測試完的TRIGGER測試完
 3.之後將database&table獨立出來一個.sql檔案
+4.PLACE & THEME AUTO CATCH 
