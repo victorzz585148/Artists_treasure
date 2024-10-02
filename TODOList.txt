@@ -37,3 +37,10 @@ WHAT I NEED TO DO?
 2.接著把沒測試完的TRIGGER測試完
 3.之後將database&table獨立出來一個.sql檔案
 4.PLACE & THEME AUTO CATCH 
+
+2024/10/02
+WHAT I DID?
+1.資料庫表格excel新增線上展覽/明細資料表，同時新增ONLINEEXHIBITION/DETAIL
+2.ONLINEEXHIBITION/DETAI自動編號觸發器;續用2024/10/01測試內容進對其進行測試--ALL CLEAR 2024/10/02 09:14pm
+WHAT I NEED TO DO?
+
