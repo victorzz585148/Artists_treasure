@@ -9,7 +9,7 @@
 2024/09/27
 1.修改TABLE-COKKECTION'S COL_DPRICE TO COL_PRICE--已修改 2024/10/01 12:22am
 2.需要新增測試資料的csv檔案--確定原csv檔無法使用，且暫時不使用csv檔 2024/10/01 12:21am
-3.設計&導入&測試del_index.sql
+3.設計&導入&測試del_index.sql--已整合 2024/10/01 11:49am 
 
 2024/10/01
 WHAT I DID?
@@ -34,13 +34,13 @@ WHAT I DID?
 2.tradedetail debug, check未正確設置，當下已修正完畢
 WHAT I NEED TO DO?
 1.接著設計虛擬資料
-2.接著把沒測試完的TRIGGER測試完
+2.接著把沒測試完的TRIGGER測試完--ALL CLEAR 2024/10/02 11:46pm
 3.之後將database&table獨立出來一個.sql檔案
-4.PLACE & THEME AUTO CATCH 
+4.PLACE & THEME AUTO CATCH --已載入 2024/10/02 11:46pm
 
 2024/10/02
 WHAT I DID?
 1.資料庫表格excel新增線上展覽/明細資料表，同時新增ONLINEEXHIBITION/DETAIL
 2.ONLINEEXHIBITION/DETAI自動編號觸發器;續用2024/10/01測試內容進對其進行測試--ALL CLEAR 2024/10/02 09:14pm
 WHAT I NEED TO DO?
-
+1.開始設計網頁
