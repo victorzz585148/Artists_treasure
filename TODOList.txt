@@ -40,7 +40,7 @@ WHAT I NEED TO DO?
 
 2024/10/02
 WHAT I DID?
-1.資料庫表格excel新增線上展覽/明細資料表，同時新增ONLINEEXHIBITION/DETAIL
+1.資料庫表格excel新增線 上展覽/明細資料表，同時新增ONLINEEXHIBITION/DETAIL
 2.ONLINEEXHIBITION/DETAI自動編號觸發器;續用2024/10/01測試內容進對其進行測試--ALL CLEAR 2024/10/02 09:14pm
 WHAT I NEED TO DO?
 1.開始設計網頁
