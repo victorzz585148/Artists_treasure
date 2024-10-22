@@ -127,21 +127,6 @@
     transition: all 0.3s ease; /* 平滑過渡 */
 }
 
-.form_div {
-    display: flex;
-    align-items: center;
-}
-
-.form_label {
-    margin-right: 10px;
-    line-height: 1;
-}
-
-.form_input {
-    padding: 5px;
-    width: 600px;
-}
-
 .hidden {
     display: none;
 }
@@ -149,3 +134,21 @@
     color: red;
     margin-right: 5px;  /* 給 * 和標籤之間留一些空隙 */
 }
+/*form setting*/
+
+.form_label {
+    margin-right: 15px; /* 調整 label 與 input 的距離 */
+    width: 120px; /* 固定 label 寬度，確保對齊 */
+}
+
+.form_input {
+    flex-grow: 1; /* 使 input 根據容器寬度自適應 */
+    width: 100%; /* 使 input 滿寬 */
+    box-sizing: border-box; /* 包含 padding 與 border */
+}
+.form-control {
+    position: relative;
+    width: 100%;  /* 確保 input 框寬度一致 */
+    box-sizing: border-box;
+  }
+  

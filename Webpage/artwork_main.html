@@ -21,7 +21,7 @@
                         <a class="nav-link active" aria-current="page" href="artwork_main.html">作品管理</a>
                     </li>
                     <li class="nav-item">   
-                        <a class="nav-link" href="">交易管理</a>
+                        <a class="nav-link" href="#">交易管理</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">展出管理</a>
@@ -34,17 +34,17 @@
         </div>
     </nav>
     <!--insert front-->
-    <div class="container mt-3 " name="from_main">
+    <div class="container mt-3 needs-validation" name="from_main">
         <form id="uploadForm" action="php/insert_artwork.php" enctype="multipart/form-data" method="POST">
             <div class="mb-3">
                 <label for="type_select" class="form-label"><span class="required">*</span>藝品類別:</label>
-                <select id = "type_select">
+                <select id = "type_select" required>
                     <option disabled selected hidden>請選擇類別</option>
                     <option value="ARTWORK">創作品</option>
                     <option value="COLLECTION">收藏品</option>
                 </select>
                 <label for="state_select" class="form-label"  style="margin-left: 40px"><span class="required">*</span>交易狀態:</label>
-                <select id = "state_select">
+                <select id = "state_select" required>
                     <option disabled selected hidden>請選擇類別</option>
                     <option value="1">已出售</option>
                     <option value="0">未出售</option>
@@ -52,39 +52,47 @@
             </div>
             <div class="mb-3 form_div hidden extra_fields">
                 <label for="ARTIST" class="form-label form_label"><span class="required">*</span>作者:</label>
-                <input type="text" class="form-control form_input" id="ARTIST" name="ARTIST" style="margin-left: 31px;" required>
+                <input type="text" class="form-control form_input" id="ARTIST" name="ARTIST" required>
+                <div class="invalid-feedback">請輸入作者。</div>
             </div>
+            
             <div class="mb-3 form_div">
                 <label for="NAME" class="form-label form_label"><span class="required">*</span>名稱:</label>
-                <input type="text" class="form-control form_input" id="NAME" name="NAME" style="margin-left: 31px;" required>
+                <input type="text" class="form-control form_input" id="NAME" name="NAME" required>
+                <div class="invalid-feedback">請輸入名稱。</div>
             </div>
             <div class="mb-3 form_div">
                 <label for="MATERIAL" class="form-label form_label"><span class="required">*</span>材質:</label>
-                <input type="text" class="form-control form_input" id="MATERIAL" name="MATERIAL"  style="margin-left: 31px;" required>
+                <input type="text" class="form-control form_input" id="MATERIAL" name="MATERIAL" required>
+                <div class="invalid-feedback">請輸入材質。</div>
             </div>
             <div class="mb-3 form_div">
                 <label for="LENGTH" class="form-label form_label"><span class="required">*</span>長:</label>
-                <input type="number" class="form-control form_input" id="LENGTH" name="LENGTH"  style="margin-left: 45px;" placeholder="公分" required>
+                <input type="number" class="form-control form_input" id="LENGTH" name="LENGTH" placeholder="公分" required>
+                <div class="invalid-feedback">請輸入長。</div>
             </div>
             <div class="mb-3 form_div">
                 <label for="WIDTH" class="form-label form_label"><span class="required">*</span>寬:</label>
-                <input type="number" class="form-control form_input" id="WIDTH" name="WIDTH" style="margin-left: 45px;" placeholder="公分" required>
+                <input type="number" class="form-control form_input" id="WIDTH" name="WIDTH" placeholder="公分" required>
+                <div class="invalid-feedback">請輸入寬。</div>
             </div>
             <div class="mb-3 form_div">
                 <label for="SIGNATURE_Y" class="form-label form_label"><span class="required">*</span>落款年:</label>
-                <input type="number" class="form-control form_input" id="SIGNATURE_Y" name="SIGNATURE_Y" style="margin-left: 12px;" required>
+                <input type="number" class="form-control form_input" id="SIGNATURE_Y" name="SIGNATURE_Y" required>
+                <div class="invalid-feedback">請輸入落款年。</div>
             </div>
             <div class="mb-3 form_div">
                 <label for="SIGNATURE_M" class="form-label form_label">落款月:</label>
-                <input type="number" class="form-control form_input" id="SIGNATURE_M" name="SIGNATURE_M" style="margin-left: 12px;" required>
+                <input type="number" class="form-control form_input" id="SIGNATURE_M" name="SIGNATURE_M">
             </div>
             <div class="mb-3 form_div">
                 <label for="THEME" class="form-label form_label">主題:</label>
-                <input type="text" class="form-control form_input" id="THEME" name="THEME" style="margin-left: 31px;" required>
+                <input type="text" class="form-control form_input" id="THEME" name="THEME">
             </div>
             <div class="mb-3 form_div hidden extra_fields">
                 <label for="GET_DATE" class="form-label form_label"><span class="required">*</span>收藏日期:</label>
-                <input type="date" class="form-control form_input" id="GET_DATE" name="GET_DATE" rows="3">
+                <input type="date" class="form-control form_input" id="GET_DATE" name="GET_DATE" rows="3" required>
+                <div class="invalid-feedback">請輸入收藏日期。</div>
             </div>
             <div class="mb-3 form_div hidden extra_fields">
                 <label for="PRICE" class="form-label form_label">收藏價格:</label>
@@ -92,19 +100,20 @@
             </div>
             <div class="mb-3 form_div">
                 <label for="INTRODUCE" class="form-label form_label">介紹:</label>
-                <textarea class="form-control form_input" id="INTRODUCE" name="INTRODUCE" style="margin-left: 31px;" required rows="6" cols="40" placeholder="請輸入介紹文字"></textarea>
+                <textarea class="form-control form_input" id="INTRODUCE" name="INTRODUCE" rows="6" cols="40" placeholder="請輸入介紹文字"></textarea>
             </div>
             <div class="mb-3 form_div">
                 <label for="LOCALTION" class="form-label form_label"><span class="required">*</span>存放位置:</label>
-                <input type="text" class="form-control form_input" id="LOCALTION" name="LOCALTION" rows="3">
+                <input type="text" class="form-control form_input" id="LOCALTION" name="LOCALTION" rows="3" required>
+                <div class="invalid-feedback">請輸入存放位置。</div>
             </div>
             <div class="mb-3 form_div">
-                <label for="REMARK" class="form-label form_label">註解:</label>
-                <textarea class="form-control form_input" id="REMARK" name="REMARK" style="margin-left: 31px;" required rows="4" cols="40" placeholder="請輸入備註"></textarea>
+                <label for="REMARK" class="form-label form_label">備註:</label>
+                <textarea class="form-control form_input" id="REMARK" name="REMARK" rows="4" cols="40" placeholder="請輸入備註"></textarea>
             </div>
             <div class="mb-3 form_div">
                 <label for="MEDIA" class="form-label form_label">預覽圖:</label>
-                <input type="file" accept="image/*" class="form-control form_input" id="MEDIA" name="MEDIA" rows="3" style="margin-left: 12px;">
+                <input type="file" accept="image/*" class="form-control form_input" id="MEDIA" name="MEDIA" rows="3">
             </div>
             <img id="preview" src="" style="margin-top: 10px;">
             <button type="submit" class="btn btn-primary" id="savebutton">儲存</button>

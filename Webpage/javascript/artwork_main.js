@@ -69,20 +69,22 @@ document.getElementById('overlay').addEventListener('click', function() {
     isZoomed = false;  // 重置標誌位，允許下次觸發
 });
 
+
+//開啟時執行
 $(document).ready(function() {
-    // 初始化 Select2
+    //Select2 setting
     $('#type_select').select2({
         placeholder: "請選擇類別",
-        allowClear: true, // 允許清除選擇
         minimumResultsForSearch: Infinity,
         width: '150px'
     });
     $('#state_select').select2({
         placeholder: "請選擇類別",
-        allowClear: true, // 允許清除選擇
         minimumResultsForSearch: Infinity,
         width: '150px'
     });
+
+    //類別判定
     $('#type_select').on('change', function() {
         var selectedValue = $(this).val();
         if (selectedValue === 'COLLECTION') {
@@ -93,48 +95,37 @@ $(document).ready(function() {
     });
 });
 
-//確認必填欄位
+
+//表單送出必填欄位檢測
 document.getElementById('savebutton').addEventListener('click', function(event) {
-    // 取得表單中的值
-    //必填欄位
-    var ARTIST = document.getElementById('ARTIST').value.trim();
-    var NAME = document.getElementById('NAME').value.trim();
-    var SIGNATURE_Y = document.getElementById('SIGNATURE_Y').value.trim();
-    var LOCALTION = document.getElementById('LOCALTION').value.trim();
-    var MATERIAL = document.getElementById('MATERIAL').value.trim();
-    var LENGTH = document.getElementById('LENGTH').value.trim();
-    var WIDTH = document.getElementById('WIDTH').value.trim();
-    var GET_DATE = document.getElementById('GET_DATE').value.trim();
-    var type_select = $('#type_select').val();  // Select2 下拉選單的值--type
-    var state_select = $('#state_select').val();  // Select2 下拉選單的值--state
-    
-
-    // 檢查必填欄位是否有填寫
-    if (type_select === "" || state_select === "") {
-        alert("請選取下拉選單之選項");
-    } else if (type_select === "ARTWORK") {
-        if (NAME === "" || SIGNATURE_Y === "" || LOCALTION === "" || MATERIAL === "" || LENGTH === "" || WIDTH === "") {
-            alert("請填寫所有必填欄位");
+    var typeSelect = $('#type_select').val();
+    var stateSelect = $('#state_select').val();
+    var form = document.getElementById('uploadForm');
+    if (!typeSelect || !stateSelect) {
+        event.preventDefault();  // 阻止表單提交
+        if (!typeSelect) {
+            alert("請選擇藝品類別。");
+        }else if (!stateSelect) {
+            alert("請選擇交易狀態。");
         }
-    } else if (type_select === "COLLECTION") {
-        if (ARTIST === "" || NAME === "" || SIGNATURE_Y === "" || LOCALTION === "" || MATERIAL === "" || LENGTH === "" || WIDTH === "" || GET_DATE === "") {
-            alert("請填寫所有必填欄位");
-        }
-    } else {
-        // 彈出確認對話框
-        var confirmation = confirm("你確定要送出表單嗎？");
-
-        if (confirmation) {
-            // 使用者點擊了確認，提交表單
-            document.getElementById('myForm').submit();
-        } else {
-            // 使用者點擊了取消，不送出表單
-            alert("表單已取消送出");
-        }}
-});
-
-document.getElementById('savebutton').addEventListener('click', function(event) {
-    // 最終提交表單
-    var form = document.getElementById('myForm');
-    form.submit();  // 提交表單
+        return false;
+    }
+    // 檢查其他欄位的有效性
+    if (!form.checkValidity()) {
+        event.preventDefault();  // 阻止提交
+        event.stopPropagation(); // 停止事件傳遞
+        form.classList.add('was-validated');  // 加入 Bootstrap 驗證樣式
+        return;
+    }
+   
+    // 所有欄位有效，顯示確認對話框
+    var confirmation = confirm("你確定要送出表單嗎？");
+    if (confirmation) {
+        // 使用者點擊了確認，提交表單
+        alert("表單已儲存");
+        document.getElementById('uploadForm').submit();
+    } else if (!confirmation) {
+        event.preventDefault();  // 如果使用者取消，則阻止表單提交
+        alert("表單已取消儲存");
+    }
 });
