@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>作品管理</title>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/artwork_main.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="main.html">藝術家的藏寶庫</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="artwork_main.html">作品管理</a>
+                    </li>
+                    <li class="nav-item">   
+                        <a class="nav-link" href="">交易管理</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">展出管理</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">線上展覽管理</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!--insert front-->
+    <div class="container mt-3 " name="from_main">
+        <form id="uploadForm" action="php/insert_artwork.php" enctype="multipart/form-data" method="POST">
+            <div class="mb-3">
+                <label for="type_select" class="form-label"><span class="required">*</span>藝品類別:</label>
+                <select id = "type_select">
+                    <option disabled selected hidden>請選擇類別</option>
+                    <option value="ARTWORK">創作品</option>
+                    <option value="COLLECTION">收藏品</option>
+                </select>
+                <label for="state_select" class="form-label"  style="margin-left: 40px"><span class="required">*</span>交易狀態:</label>
+                <select id = "state_select">
+                    <option disabled selected hidden>請選擇類別</option>
+                    <option value="1">已出售</option>
+                    <option value="0">未出售</option>
+                </select>
+            </div>
+            <div class="mb-3 form_div hidden extra_fields">
+                <label for="ARTIST" class="form-label form_label"><span class="required">*</span>作者:</label>
+                <input type="text" class="form-control form_input" id="ARTIST" name="ARTIST" style="margin-left: 31px;" required>
+            </div>
+            <div class="mb-3 form_div">
+                <label for="NAME" class="form-label form_label"><span class="required">*</span>名稱:</label>
+                <input type="text" class="form-control form_input" id="NAME" name="NAME" style="margin-left: 31px;" required>
+            </div>
+            <div class="mb-3 form_div">
+                <label for="MATERIAL" class="form-label form_label"><span class="required">*</span>材質:</label>
+                <input type="text" class="form-control form_input" id="MATERIAL" name="MATERIAL"  style="margin-left: 31px;" required>
+            </div>
+            <div class="mb-3 form_div">
+                <label for="LENGTH" class="form-label form_label"><span class="required">*</span>長:</label>
+                <input type="number" class="form-control form_input" id="LENGTH" name="LENGTH"  style="margin-left: 45px;" placeholder="公分" required>
+            </div>
+            <div class="mb-3 form_div">
+                <label for="WIDTH" class="form-label form_label"><span class="required">*</span>寬:</label>
+                <input type="number" class="form-control form_input" id="WIDTH" name="WIDTH" style="margin-left: 45px;" placeholder="公分" required>
+            </div>
+            <div class="mb-3 form_div">
+                <label for="SIGNATURE_Y" class="form-label form_label"><span class="required">*</span>落款年:</label>
+                <input type="number" class="form-control form_input" id="SIGNATURE_Y" name="SIGNATURE_Y" style="margin-left: 12px;" required>
+            </div>
+            <div class="mb-3 form_div">
+                <label for="SIGNATURE_M" class="form-label form_label">落款月:</label>
+                <input type="number" class="form-control form_input" id="SIGNATURE_M" name="SIGNATURE_M" style="margin-left: 12px;" required>
+            </div>
+            <div class="mb-3 form_div">
+                <label for="THEME" class="form-label form_label">主題:</label>
+                <input type="text" class="form-control form_input" id="THEME" name="THEME" style="margin-left: 31px;" required>
+            </div>
+            <div class="mb-3 form_div hidden extra_fields">
+                <label for="GET_DATE" class="form-label form_label"><span class="required">*</span>收藏日期:</label>
+                <input type="date" class="form-control form_input" id="GET_DATE" name="GET_DATE" rows="3">
+            </div>
+            <div class="mb-3 form_div hidden extra_fields">
+                <label for="PRICE" class="form-label form_label">收藏價格:</label>
+                <input type="number" class="form-control form_input" id="PRICE" name="PRICE" rows="3" placeholder="新台幣">
+            </div>
+            <div class="mb-3 form_div">
+                <label for="INTRODUCE" class="form-label form_label">介紹:</label>
+                <textarea class="form-control form_input" id="INTRODUCE" name="INTRODUCE" style="margin-left: 31px;" required rows="6" cols="40" placeholder="請輸入介紹文字"></textarea>
+            </div>
+            <div class="mb-3 form_div">
+                <label for="LOCALTION" class="form-label form_label"><span class="required">*</span>存放位置:</label>
+                <input type="text" class="form-control form_input" id="LOCALTION" name="LOCALTION" rows="3">
+            </div>
+            <div class="mb-3 form_div">
+                <label for="REMARK" class="form-label form_label">註解:</label>
+                <textarea class="form-control form_input" id="REMARK" name="REMARK" style="margin-left: 31px;" required rows="4" cols="40" placeholder="請輸入備註"></textarea>
+            </div>
+            <div class="mb-3 form_div">
+                <label for="MEDIA" class="form-label form_label">預覽圖:</label>
+                <input type="file" accept="image/*" class="form-control form_input" id="MEDIA" name="MEDIA" rows="3" style="margin-left: 12px;">
+            </div>
+            <img id="preview" src="" style="margin-top: 10px;">
+            <button type="submit" class="btn btn-primary" id="savebutton">儲存</button>
+        </form>
+    </div>
+    <div id="overlay" style="display: none;"></div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="javascript/artwork_main.js"></script>
+    <script src="javascript/media_upload.js"></script>
+</body>
+</html>

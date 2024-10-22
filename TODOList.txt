@@ -43,4 +43,18 @@ WHAT I DID?
 1.資料庫表格excel新增線 上展覽/明細資料表，同時新增ONLINEEXHIBITION/DETAIL
 2.ONLINEEXHIBITION/DETAI自動編號觸發器;續用2024/10/01測試內容進對其進行測試--ALL CLEAR 2024/10/02 09:14pm
 WHAT I NEED TO DO?
-1.開始設計網頁
+1.開始設計網頁--開始設計 2024/10/15
+
+2024/10/21
+WHAT I DID?
+1.製作網頁:創作品及收藏品建立的部分
+WHAT I NEED TO DO?
+1.重新下載XAMPP的MYSQL升級，然後匯入資料庫
+2.測試網頁
+
+2024/10/22
+WHAT I DID?
+1.製作網頁:創作品及收藏品建立的部分
+WHAT I NEED TO DO?
+1.查詢其他架設php的方式，使網頁能夠正常運作
+2.把必填欄位這東西搞好，requirment不要的就刪除

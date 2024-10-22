@@ -1,0 +1,151 @@
+    
+/* 基本樣式 */
+.navbar {
+    background-color: #f8f9fa;
+    padding: 1rem;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.navbar-nav .nav-link {
+    color: #000;
+    font-size: 1.2rem;
+    margin-right: 1rem;
+    position: relative;
+    transition: color 0.3s ease-in-out;
+}
+
+/* 動畫效果 */
+.navbar-nav .nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #000;
+    transition: width 0.3s ease-in-out;
+}
+
+/* 滑鼠懸停效果 */
+.navbar-nav .nav-link:hover {
+    color: #007bff;
+}
+
+.navbar-nav .nav-link:hover::after {
+    width: 100%;
+}
+
+/* 按鈕動畫 */
+.navbar-toggler {
+    border-color: rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.navbar-toggler:hover {
+    transform: rotate(90deg);
+}
+
+/* 導覽列的背景顏色漸變 */
+.navbar {
+    animation: backgroundColorChange 5s infinite alternate;
+}
+
+.body {
+    overflow-y: hidden;
+}
+
+@keyframes backgroundColorChange {
+    0% {
+        background-color: #f8f9fa;
+    }
+    100% {
+        background-color: #e9ecef;
+    }
+}
+
+#SIGNATURE_Y::-webkit-inner-spin-button,
+#SIGNATURE_Y::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+#SIGNATURE_M::-webkit-inner-spin-button,
+#SIGNATURE_M::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* 預覽圖片基本樣式 */
+#preview {
+    max-width: 300px;
+    max-height: 300px;
+    width: auto;
+    height: auto;
+    cursor: pointer;
+}
+
+/* 複製圖像 B 的樣式，初始時隱藏 */
+#preview-clone {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(2);  /* 放大2倍 */
+    z-index: 1001;
+    display: none;
+    max-width: 600px;
+    max-height: 600px;
+    width: auto;
+    height: auto;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* 添加陰影 */
+}
+
+/* 背景遮罩，初始時隱藏 */
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);  /* 背景變暗 */
+    z-index: 1000;
+    display: none;
+    transition: opacity 0.3s ease;
+}
+#type_select {
+    padding: 10px;
+    font-size: 14px;
+    border: 2px solid #000000; /* 藍色邊框 */
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    color: #333;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 添加陰影 */
+    outline: none;
+    transition: all 0.3s ease; /* 平滑過渡 */
+}
+
+.form_div {
+    display: flex;
+    align-items: center;
+}
+
+.form_label {
+    margin-right: 10px;
+    line-height: 1;
+}
+
+.form_input {
+    padding: 5px;
+    width: 600px;
+}
+
+.hidden {
+    display: none;
+}
+.required {
+    color: red;
+    margin-right: 5px;  /* 給 * 和標籤之間留一些空隙 */
+}
