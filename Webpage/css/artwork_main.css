@@ -151,4 +151,7 @@
     width: 100%;  /* 確保 input 框寬度一致 */
     box-sizing: border-box;
   }
-  
+
+input {
+    autocomplete="off"
+}

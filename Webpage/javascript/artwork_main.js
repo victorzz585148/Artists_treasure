@@ -1,90 +1,85 @@
-let isZoomed = false;  // 標誌位，防止重複觸發
+let isZoomed = false;  // 標誌位，防止重複觸發圖片放大
 
+// 圖片預覽變更事件
 document.getElementById('MEDIA').addEventListener('change', function(event) {
     const file = event.target.files[0];
     const preview = document.getElementById('preview');
-    
+
     if (file) {
         const reader = new FileReader();
         reader.onload = function(e) {
             preview.src = e.target.result;
-            preview.style.display = 'block';  // 顯示圖片 A
+            preview.style.display = 'block';  // 顯示圖片
         };
         reader.readAsDataURL(file);
     } else {
         preview.src = "";  // 如果未選擇圖片，重置為空
-        preview.style.display = 'none';  // 隱藏圖片 A
+        preview.style.display = 'none';  // 隱藏圖片
     }
 });
 
-
-// 當點擊圖片 A 時，創建並顯示圖片 B
+// 圖片點擊事件，放大顯示圖片
 document.getElementById('preview').addEventListener('click', function() {
     const preview = document.getElementById('preview');
     const overlay = document.getElementById('overlay');
-    
-    // 檢查是否已經選擇了圖片，未選擇則不執行後續代碼
+
+    // 如果已經放大，或者圖片不存在，則返回
     if (!preview.src || isZoomed) return;
 
-    isZoomed = true;  // 設置標誌位，避免重複觸發
+    isZoomed = true;
 
-    // 創建圖片 B 並設置為和 A 相同的圖片
     let clone = document.getElementById('preview-clone');
     if (!clone) {
         clone = document.createElement('img');
         clone.id = 'preview-clone';
         document.body.appendChild(clone);
     }
-    
-    clone.src = preview.src;
-    clone.style.display = 'block';  // 顯示圖片 B
-    overlay.style.display = 'block';  // 顯示背景遮罩
 
+    clone.src = preview.src;
+    clone.style.display = 'block';
+    overlay.style.display = 'block';
 
     // 設置 clone 圖片的大小
     clone.style.position = 'fixed';
     clone.style.top = '50%';
     clone.style.left = '50%';
     clone.style.transform = 'translate(-50%, -50%)';
-    clone.style.width = '800px';  // 設定固定寬度
-    clone.style.height = '600px';  // 設定固定高度
-    clone.style.maxWidth = '90%';  // 限制最大寬度
-    clone.style.maxHeight = '90%';  // 限制最大高度
-    clone.style.zIndex = '1001';  // 保持在最上層
-    clone.style.boxShadow = '0 0 20px rgba(0, 0, 0, 0.5)';  // 添加陰影效果
-    overlay.style.display = 'block';  // 顯示背景遮罩
-    preview.title = "再次點擊可以縮小圖片";  // 更改提示文字    
+    clone.style.width = '800px';
+    clone.style.height = '600px';
+    clone.style.maxWidth = '90%';
+    clone.style.maxHeight = '90%';
+    clone.style.zIndex = '1001';
+    clone.style.boxShadow = '0 0 20px rgba(0, 0, 0, 0.5)';
+    overlay.style.display = 'block';
+    preview.title = "再次點擊可以縮小圖片";
 });
 
-
-// 當點擊遮罩或圖片 B 時，隱藏圖片 B 和遮罩
+// 點擊遮罩或 clone 圖片時，隱藏圖片和遮罩
 document.getElementById('overlay').addEventListener('click', function() {
     const clone = document.getElementById('preview-clone');
     const overlay = document.getElementById('overlay');
 
     if (clone) {
-        clone.style.display = 'none';  // 隱藏圖片 B
+        clone.style.display = 'none';  // 隱藏圖片
     }
     overlay.style.display = 'none';  // 隱藏背景遮罩
-    isZoomed = false;  // 重置標誌位，允許下次觸發
+    isZoomed = false;  // 重置標誌位，允許下次放大
 });
 
-
-//開啟時執行
+// 開啟時執行
 $(document).ready(function() {
-    //Select2 setting
     $('#type_select').select2({
         placeholder: "請選擇類別",
         minimumResultsForSearch: Infinity,
         width: '150px'
     });
     $('#state_select').select2({
-        placeholder: "請選擇類別",
+        placeholder: "請選擇交易狀態",
         minimumResultsForSearch: Infinity,
         width: '150px'
     });
 
-    //類別判定
+    // 根據類別顯示或隱藏額外字段
     $('#type_select').on('change', function() {
         var selectedValue = $(this).val();
         if (selectedValue === 'COLLECTION') {
@@ -95,30 +90,23 @@ $(document).ready(function() {
     });
 });
 
+var isSubmitting = false;
 
-//表單送出必填欄位檢測
+// 表單提交事件處理
 document.getElementById('savebutton').addEventListener('click', function(event) {
+    if (isSubmitting) return;  // 防止重複提交
+    isSubmitting = true;  // 設置為正在提交
+
+    var form = document.getElementById('uploadForm');
     var typeSelect = $('#type_select').val();
     var stateSelect = $('#state_select').val();
-    var form = document.getElementById('uploadForm');
-    if (!typeSelect || !stateSelect) {
-        event.preventDefault();  // 阻止表單提交
-        if (!typeSelect) {
-            alert("請選擇藝品類別。");
-        }else if (!stateSelect) {
-            alert("請選擇交易狀態。");
-        }
-        return false;
-    }
-    // 檢查其他欄位的有效性
-    if (!form.checkValidity()) {
-        event.preventDefault();  // 阻止提交
-        event.stopPropagation(); // 停止事件傳遞
-        form.classList.add('was-validated');  // 加入 Bootstrap 驗證樣式
-        return;
-    }
-   
-    // 所有欄位有效，顯示確認對話框
+    
+    if (typeSelect === "ARTWORK") {
+        var fieldsToExclude = document.querySelectorAll('#ARTIST,#GET_DATE');
+        fieldsToExclude.forEach(function(field) {
+            field.removeAttribute('required');
+        });
+    } 
     var confirmation = confirm("你確定要送出表單嗎？");
     if (confirmation) {
         // 使用者點擊了確認，提交表單
@@ -128,4 +116,12 @@ document.getElementById('savebutton').addEventListener('click', function(event) 
         event.preventDefault();  // 如果使用者取消，則阻止表單提交
         alert("表單已取消儲存");
     }
+
 });
+
+// 禁止輸入科學符號"E"到數字欄位
+function preventE(event) {
+    if (event.key === 'e' || event.key === 'E') {
+        event.preventDefault();
+    }
+}
