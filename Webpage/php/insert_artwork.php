@@ -9,8 +9,45 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 // 檢查連接是否成功
 if ($conn->connect_error) {
     die("連接失敗: " . $conn->connect_error);
+}else{
+    echo 'yessss!';
 }
 
+// // 指定儲存檔案的資料夾
+// $uploadDir = './uploads/';
+// if (!is_dir($uploadDir)) {
+//     mkdir($uploadDir, 0777, true);  // 如果資料夾不存在，則創建
+// }
+
+// // 檢查是否上傳了文件
+// if (isset($_FILES['MEDIA']) && $_FILES['MEDIA']['error'] === 0) {
+//     // 取得所有文件名
+//     $files = scandir($uploadDir);
+    
+    
+//     // 生成新的文件名 (01, 02, 03, ...)
+//     $newFileName = str_pad($fileCount + 1, 2, '0', STR_PAD_LEFT) . '.' . pathinfo($_FILES['MEDIA']['name'], PATHINFO_EXTENSION);
+//     $uploadFilePath = $uploadDir . $newFileName;
+
+//     // 將文件移動到指定資料夾
+//     if (move_uploaded_file($_FILES['MEDIA']['tmp_name'], $uploadFilePath)) {
+//         // 返回文件路徑
+//         echo json_encode([
+//             'success' => true,
+//             'filePath' => $uploadFilePath
+//         ]);
+//     } else {
+//         echo json_encode([
+//             'success' => false,
+//             'message' => '文件移動失敗'
+//         ]);
+//     }
+// } else {
+//     echo json_encode([
+//         'success' => false,
+//         'message' => '無效的文件或上傳錯誤'
+//     ]);
+// }
 // 指定儲存檔案的資料夾
 $uploadDir = './uploads/';
 if (!is_dir($uploadDir)) {
@@ -21,8 +58,15 @@ if (!is_dir($uploadDir)) {
 if (isset($_FILES['MEDIA']) && $_FILES['MEDIA']['error'] === 0) {
     // 取得所有文件名
     $files = scandir($uploadDir);
-    
-    
+
+    // 過濾出有效的文件，並計算現有文件的數量
+    $fileCount = 0;
+    foreach ($files as $file) {
+        if ($file !== '.' && $file !== '..' && is_file($uploadDir . $file)) {
+            $fileCount++;
+        }
+    }
+
     // 生成新的文件名 (01, 02, 03, ...)
     $newFileName = str_pad($fileCount + 1, 2, '0', STR_PAD_LEFT) . '.' . pathinfo($_FILES['MEDIA']['name'], PATHINFO_EXTENSION);
     $uploadFilePath = $uploadDir . $newFileName;
@@ -47,6 +91,7 @@ if (isset($_FILES['MEDIA']) && $_FILES['MEDIA']['error'] === 0) {
     ]);
 }
 
+
 //從 POST 接收表單資料
 $TYPE_SELECT = $_POST['type_select'];
 $NAME = $_POST['NAME'];
@@ -54,7 +99,7 @@ $MATERIAL = $_POST['MATERIAL'];
 $LENGTH = $_POST['LENGTH'];
 $WIDTH = $_POST['WIDTH'];
 $SIGNATURE_Y = $_POST['SIGNATURE_Y'];
-$SIGNATURE_M = $_POST['SIGNATURE_M'];
+$SIGNATURE_M = !empty($_POST['SIGNATURE_M']) ? $_POST['SIGNATURE_M'] : 0;
 $THEME = $_POST['THEME'];
 $INTRODUCE = $_POST['INTRODUCE'];
 $LOCATION = $_POST['LOCATION'];

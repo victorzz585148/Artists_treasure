@@ -151,7 +151,13 @@
     width: 100%;  /* 確保 input 框寬度一致 */
     box-sizing: border-box;
   }
+  /* 將非必填欄位不顯示驗證標記 */
+input.optional.is-valid {
+    border-color: initial;
+    box-shadow: none;
+}
 
-input {
-    autocomplete="off"
+input.optional.is-invalid {
+    border-color: initial;
+    box-shadow: none;
 }

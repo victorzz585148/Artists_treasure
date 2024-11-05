@@ -66,3 +66,27 @@
         background-color: #e9ecef;
     }
 }
+body{
+    background-color: #eee;
+}
+img{
+    width: 100%;
+}
+.col-12{
+    padding: 5px;
+}
+.box{
+    background-color: white;
+    border: 1px solid black;
+    height: 100%;
+    /* filter: grayscale(1); */
+    cursor: pointer;
+    transition: .3s;
+}
+.box:hover{
+    /* filter: grayscale(0); */
+    background-color: lavender;
+}
+.textBox{
+    padding: 10px;
+}
