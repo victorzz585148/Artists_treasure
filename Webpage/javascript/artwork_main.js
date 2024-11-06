@@ -10,14 +10,22 @@ $(document).ready(function() {
         minimumResultsForSearch: Infinity,
         width: '150px'
     });
+    $('#REPRESENTATIVE').select2({
+        placeholder: "請選擇交易狀態",
+        minimumResultsForSearch: Infinity,
+        width: '150px'
+    });
 
     // 根據類別顯示或隱藏額外字段
     $('#type_select').on('change', function() {
         var selectedValue = $(this).val();
         if (selectedValue === 'COLLECTION') {
             $('.extra_fields').removeClass('hidden');
+            $('#REPRESENTATIVE option[value="1"]').prop('disabled', true);
+            $('#REPRESENTATIVE').val('0').trigger('change'); // 將作品狀態設為普通作品
         } else {
             $('.extra_fields').addClass('hidden');
+            $('#REPRESENTATIVE option[value="1"]').prop('disabled', false);
         }
     });
     // 初始化 Select2 選單
@@ -28,6 +36,11 @@ $(document).ready(function() {
             width: '150px'
         });
         $('#state_select').select2({
+            placeholder: "請選擇交易狀態",
+            minimumResultsForSearch: Infinity,
+            width: '150px'
+        });
+        $('#REPRESENTATIVE').select2({
             placeholder: "請選擇交易狀態",
             minimumResultsForSearch: Infinity,
             width: '150px'
@@ -160,6 +173,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // 新增檢查邏輯
         var typeSelectValue = $('#type_select').val();
         var stateSelectValue = $('#state_select').val();
+        var REPRESENTATIVEValue = $('#REPRESENTATIVE').val();
         if (!typeSelectValue && !stateSelectValue && !form.checkValidity()) {
             alert("請選擇藝品類別、交易狀態及必填欄位尚未填寫。");
             form.classList.add('was-validated');
@@ -207,35 +221,35 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // 構建表單輸入值的訊息
         let form_message = "請確認輸入的資料是否正確。\n";
-        // formData.forEach((value, key) => {
-        //     if(key !== 'MEDIA') {//排除MEDIA
-        //         form_message += `${key}: ${value ? value : '無'}\n`; // 如果沒有值，顯示「無」
-        //     }
-        // });
         // 顯示藝品類別
         if (typeSelectValue === 'ARTWORK') {
             form_message += "藝品類別: 創作品\n";
         } else if (typeSelectValue === 'COLLECTION') {
             form_message += "藝品類別: 收藏品\n";
         }
-
         // 顯示交易狀態
         if (stateSelectValue === '1') {
             form_message += "交易狀態: 已出售\n";
         } else if (stateSelectValue === '0') {
             form_message += "交易狀態: 未出售\n";
         }
+        // 顯示作品狀態
+        if (REPRESENTATIVEValue === '1') {
+            form_message += "作品狀態: 代表作品\n";
+        } else if (REPRESENTATIVEValue === '0') {
+            form_message += "交易狀態: 普通作品\n";
+        }
 
         if (typeSelectValue === 'ARTWORK') {
             formData.forEach((value, key) => {
-                if (key !== 'state_select' && key !== 'type_select' && key !== 'MEDIA' && key !== 'ARTIST' && key !== 'GET_DATE' && key !== 'PRICE') {
+                if (key !== 'REPRESENTATIVE' && key !== 'state_select' && key !== 'type_select' && key !== 'MEDIA' && key !== 'ARTIST' && key !== 'GET_DATE' && key !== 'PRICE') {
                     const fieldName = fieldNames[key] ? fieldNames[key] : key;
                     form_message += `${fieldName}: ${value ? value : '無'}\n`;
                 }
             });
         } else if (typeSelectValue === 'COLLECTION') {
             formData.forEach((value, key) => {
-                if (key !== 'state_select' && key !== 'type_select' && key !== 'MEDIA') {  // 排除 MEDIA 本身的內容
+                if (key !== 'REPRESENTATIVE' && key !== 'state_select' && key !== 'type_select' && key !== 'MEDIA') {  // 排除 MEDIA 本身的內容
                     const fieldName = fieldNames[key] ? fieldNames[key] : key;
                     form_message += `${fieldName}: ${value ? value : '無'}\n`;
                 }
@@ -270,6 +284,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // 清除 Select2 的選擇
         $('#type_select').val(null).trigger('change');
         $('#state_select').val(null).trigger('change');
+        $('#REPRESENTATIVE').val(null).trigger('change');
     }
 
     // 每次重整網頁或返回頁面時，清空表單的值
@@ -278,13 +293,10 @@ document.addEventListener('DOMContentLoaded', function() {
             form.reset();
             $('#type_select').val(null).trigger('change');
             $('#state_select').val(null).trigger('change');
+            $('#REPRESENTATIVE').val(null).trigger('change');
         }
-    });
-
-
-    
+    }); 
 });
-
 // 禁止輸入科學符號"E"到數字欄位
 function preventE(event) {
     if (event.key === 'e' || event.key === 'E') {

@@ -90,3 +90,36 @@ img{
 .textBox{
     padding: 10px;
 }
+.offcanvas-body {
+    overflow-y: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.offcanvas-body::-webkit-scrollbar {
+    display: none;
+}
+
+.offcanvas-header{
+    background-color: lightgray;
+}
+.offcanvas {
+    padding: 0;
+}
+.remark {
+    text-indent: -2.5em;
+    margin-bottom: 20px;
+    padding-left: 2.5em;
+    word-wrap: break-word;
+    max-width: 100%;
+    text-align: justify;
+}
+
+.introduce {
+    text-indent: -2.5em;
+    margin-bottom: 20px;
+    padding-left: 2.5em;
+    word-wrap: break-word;
+    max-width: 100%;
+    text-align: justify;
+}

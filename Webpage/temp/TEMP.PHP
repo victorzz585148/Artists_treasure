@@ -1,123 +1,79 @@
-
 <?php
-// 連接到資料庫
-$mysqli = new mysqli("localhost", "username", "password", "database");
-
-// 驗證連線
-if ($mysqli->connect_error) {
-    die("Connection failed: " . $mysqli->connect_error);
-}
-
-// 獲取檢視模式和選擇的分類（使用 POST 方式）
-$view_mode = isset($_POST['view_mode']) ? $_POST['view_mode'] : 'grid';
-$category = isset($_POST['category']) ? $_POST['category'] : 'artwork';
-
-// 根據選擇的分類查詢對應的資料表
-if ($category == 'artwork') {
-    // 查詢 artwork 資料表
-    $query = "SELECT AK_DATE, AK_NAME, AK_MATERIAL, AK_SIZE, AK_SIGNATURE_Y, AK_SIGNATURE_M, AK_THEME, AK_INTRODUCE, AK_LOCATION, AK_MEDIA, AK_STATE, AK_REMARK FROM `artwork`";
-} elseif ($category == 'collection') {
-    // 查詢 collection 資料表
-    $query = "SELECT COL_DATE, COL_ARTIST, COL_NAME, COL_MATERIAL, COL_SIZE, COL_SIGNATURE_Y, COL_SIGNATURE_M, COL_THEME, COL_GET_DATE, COL_PRICE, COL_INTRODUCE, COL_LOCATION, COL_MEDIA, COL_STATE, COL_REMARK FROM `collection`";
-}
-
-$result = $mysqli->query($query);
-
-if ($result->num_rows > 0) {
-    if ($view_mode == 'grid') {
-        echo '<div class="row">';
-        while ($row = $result->fetch_assoc()) {
-            if ($category == 'artwork') {
-                $date = $row['AK_DATE'];
-                $name = $row['AK_NAME'];
-                $material = $row['AK_MATERIAL'];
-                $size = $row['AK_SIZE'];
-                $signature_y = $row['AK_SIGNATURE_Y'];
-                $signature_m = $row['AK_SIGNATURE_M'];
-                $theme = $row['AK_THEME'];
-                $introduce = $row['AK_INTRODUCE'];
-                $location = $row['AK_LOCATION'];
-                $media = $row['AK_MEDIA'];
-                $state = $row['AK_STATE'];
-                $remark = $row['AK_REMARK'];
-            } elseif ($category == 'collection') {
-                $date = $row['COL_DATE'];
-                $artist = $row['COL_ARTIST'];
-                $name = $row['COL_NAME'];
-                $material = $row['COL_MATERIAL'];
-                $size = $row['COL_SIZE'];
-                $signature_y = $row['COL_SIGNATURE_Y'];
-                $signature_m = $row['COL_SIGNATURE_M'];
-                $theme = $row['COL_THEME'];
-                $get_date = $row['COL_GET_DATE'];
-                $price = $row['COL_PRICE'];
-                $introduce = $row['COL_INTRODUCE'];
-                $location = $row['COL_LOCATION'];
-                $media = $row['COL_MEDIA'];
-                $state = $row['COL_STATE'];
-                $remark = $row['COL_REMARK'];
-            }
-
+if ($view_mode == 'grid') {
+    echo '<div class="row">';
+    echo '<div class="col-12 col-md-9 col-xl-10 b">';
+    echo '<div class="row row-gap-4">';
+    while ($row = $result->fetch_assoc()) {
+        if ($category == 'artwork') {
+            $id = $row['AK_ID'];
+            $date = $row['AK_DATE'];
+            $name = $row['AK_NAME'];
+            $old_media = isset($row['AK_MEDIA']) ? $row['AK_MEDIA'] : '';
+            $media = str_replace('./', 'php/', $old_media);
             // 卡片顯示 (大圖示)
-            echo '<div class="col-lg-4 col-md-6 mb-4">';
-            echo '<div class="card">';
-            echo '<div class="card-body">';
-            echo '<h5 class="card-title">' . $name . '</h5>';
-            echo '<p class="card-text">' . $introduce . '</p>';
+
+            echo '<div class="col-12 col-md-4 col-xl-3" id="' . $id . '">';
+            echo '<a style="text-decoration:none;color: black;" data-bs-toggle="offcanvas" href="#offcanvas' . $id . '" role="button" aria-controls="offcanvas' . $id . '">';
+            echo '<div class="box">';
+            echo '<img style="width: 100%; aspect-ratio: 1/1; object-fit: cover; object-position: center center; height: auto/ 100%;" src="' . $media . '" alt>';
+            echo '<div class="textBox">';
+            echo '<h2> ' . $name . ' </h2>';
+            echo '</div></div></a>';
             echo '</div>';
-            echo '</div>'; // Card end
-            echo '</div>'; // Column end
-        }
-        echo '</div>'; // Row end
-    } elseif ($view_mode == 'list') {
-        // 清單顯示
-        echo '<ul class="list-group">';
-        while ($row = $result->fetch_assoc()) {
-            if ($category == 'artwork') {
-                $date = $row['AK_DATE'];
-                $name = $row['AK_NAME'];
-                $material = $row['AK_MATERIAL'];
-                $size = $row['AK_SIZE'];
-                $signature_y = $row['AK_SIGNATURE_Y'];
-                $signature_m = $row['AK_SIGNATURE_M'];
-                $theme = $row['AK_THEME'];
-                $introducce = $row['AK_INTRODUCE'];
-                $location = $row['AK_LOCATION'];
-                $media = $row['AK_MEDIA'];
-                $state = $row['AK_STATE'];
-                $remark = $row['AK_REMARK'];
 
-                echo '<li class="list-group-item">';
-                echo '<h5>' . $title . '</h5>';
-                echo '<p>' . $description . '</p>';
-                echo '</li>';
-            } elseif ($category == 'collection') {
-                $date = $row['COL_DATE'];
-                $artist = $row['COL_ARTIST'];
-                $name = $row['COL_NAME'];
-                $material = $row['COL_MATERIAL'];
-                $size = $row['COL_SIZE'];
-                $signature_y = $row['COL_SIGNATURE_Y'];
-                $signature_m = $row['COL_SIGNATURE_M'];
-                $theme = $row['COL_THEME'];
-                $get_date = $row['COL_GET_DATE'];
-                $price = $row['COL_PRICE'];
-                $introduce = $row['COL_INTRODUCE'];
-                $location = $row['COL_LOCATION'];
-                $media = $row['COL_MEDIA'];
-                $state = $row['COL_STATE'];
-                $remark = $row['COL_REMARK'];
-
-                echo '<li class="list-group-item">';
-                echo '<h5>' . $title . '</h5>';
-                echo '<p>' . $description . '</p>';
-                echo '</li>';
-            }
+            // Offcanvas 組件
+            echo '<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvas' . $id . '" aria-labelledby="offcanvasLabel' . $id . '">';
+            echo '  <div class="offcanvas-header">';
+            echo '    <h5 class="offcanvas-title" id="offcanvasLabel' . $id . '">' . $name . '</h5>';
+            echo '    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>';
+            echo '  </div>';
+            echo '  <div class="offcanvas-body">';
+            echo '    <img src="' . $media . '" alt="' . $name . '" style="width: 100%; object-fit: cover; margin-bottom: 20px;">';
+            echo '    <p>創作日期: ' . $date . '</p>';
+            echo '    <p>材質: ' . $row['AK_MATERIAL'] . '</p>';
+            echo '    <p>尺寸: ' . $row['AK_SIZE'] . '</p>';
+            echo '    <p>介紹: ' . (!empty($row['AK_INTRODUCE']) ? $row['AK_INTRODUCE'] : '無') . '</p>';
+            echo '  </div>';
+            echo '</div>';
         }
-        echo '</ul>';
+
+        if ($category == 'collection') {
+            $id = $row['COL_ID'];
+            $artist = $row['COL_ARTIST'];
+            $name = $row['COL_NAME'];
+            $old_media = isset($row['COL_MEDIA']) ? $row['COL_MEDIA'] : '';
+            $media = str_replace('./', 'php/', $old_media);
+            // 卡片顯示 (大圖示)
+
+            echo '<div class="col-12 col-md-4 col-xl-3">';
+            echo '<a style="text-decoration:none;color: black;" data-bs-toggle="offcanvas" href="#offcanvas' . $id . '" role="button" aria-controls="offcanvas' . $id . '">';
+            echo '<div class="box">';
+            echo '<img style="width: 100%; aspect-ratio: 1/1; object-fit: cover; object-position: center center; height: auto/ 100%;" src="' . $media . '" alt>';
+            echo '<div class="textBox">';
+            echo '<h2> ' . $name . ' </h2>';
+            echo '<h3> ' . $artist . ' </h3>';
+            echo '</div></div></a>';
+            echo '</div>';
+
+            // Offcanvas 組件
+            echo '<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvas' . $id . '" aria-labelledby="offcanvasLabel' . $id . '">';
+            echo '  <div class="offcanvas-header">';
+            echo '    <h5 class="offcanvas-title" id="offcanvasLabel' . $id . '">' . $name . '</h5>';
+            echo '    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>';
+            echo '  </div>';
+            echo '  <div class="offcanvas-body">';
+            echo '    <img src="' . $media . '" alt="' . $name . '" style="width: 100%; object-fit: cover; margin-bottom: 20px;">';
+            echo '    <p>作者: ' . (!empty($artist) ? $artist : '無') . '</p>';
+            echo '    <p>材質: ' . $row['COL_MATERIAL'] . '</p>';
+            echo '    <p>尺寸: ' . $row['COL_SIZE'] . '</p>';
+            echo '    <p>收藏日期: ' . (!empty($row['COL_GET_DATE']) ? $row['COL_GET_DATE'] : '無') . '</p>';
+            echo '    <p>收藏價格: ' . (!empty($row['COL_PRICE']) ? $row['COL_PRICE'] : '無') . '</p>';
+            echo '    <p>介紹: ' . (!empty($row['COL_INTRODUCE']) ? $row['COL_INTRODUCE'] : '無') . '</p>';
+            echo '  </div>';
+            echo '</div>';
+        }
     }
-} else {
-    echo "<p>無任何資料。</p>";
+    echo '</div>'; 
+    echo '</div>';
+    echo '</div>'; // Row end
 }
-
-$mysqli->close();

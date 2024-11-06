@@ -14,10 +14,10 @@ $category = isset($_POST['category']) ? $_POST['category'] : 'artwork';
 
 if ($category == 'artwork') {
     // 查詢 artwork 資料表
-    $query = "SELECT DISTINCT AK_ID,AK_DATE, AK_NAME, AK_MATERIAL, AK_SIZE, AK_SIGNATURE_Y, AK_SIGNATURE_M, AK_THEME, AK_INTRODUCE, AK_LOCATION, AK_MEDIA, AK_STATE, AK_REMARK FROM `artwork`";
+    $query = "SELECT DISTINCT * FROM `artwork`";
 } elseif ($category == 'collection') {
     // 查詢 collection 資料表
-    $query = "SELECT DISTINCT COL_ID,COL_DATE, COL_ARTIST, COL_NAME, COL_MATERIAL, COL_SIZE, COL_SIGNATURE_Y, COL_SIGNATURE_M, COL_THEME, COL_GET_DATE, COL_PRICE, COL_INTRODUCE, COL_LOCATION, COL_MEDIA, COL_STATE, COL_REMARK FROM `collection`";
+    $query = "SELECT DISTINCT * FROM `collection`";
 }
 
 $result = $mysqli->query($query);//check y/n get infomation
@@ -34,32 +34,85 @@ if ($result->num_rows > 0) {
                 $name = $row['AK_NAME'];
                 $old_media = isset($row['AK_MEDIA']) ? $row['AK_MEDIA'] : '';
                 $media = str_replace('./', 'php/', $old_media);
+                $size = $row['AK_SIZE'];
+                $size_parts = explode(",", $size);
+                $length = isset($size_parts[0]) ? $size_parts[0] : '未知';
+                $width = isset($size_parts[1]) ? $size_parts[1] : '未知';
                 // 卡片顯示 (大圖示)
 
-                echo '<div class="col-12 col-md-4 col-xl-3">';
-                echo '<a style="text-decoration:none;color: black;" href="./open_images.html"><div class="box">';
-                echo '<img src="' . $media .'" alt>';
+                echo '<div class="col-12 col-md-4 col-xl-3" id = "'. $id .'">';
+                echo '<a style="text-decoration:none;color: black;" data-bs-toggle="offcanvas" href="#offcanvas' . $id . '" role="button" aria-controls="offcanvas' . $id . '"><div class="box">';
+                echo '<img style="width: 100%;aspect-ratio: 1/1;object-fit: cover;object-position: center center;height: auto/ 100%;" src="' . $media .'" alt>';
                 echo '<div class="textBox">';
                 echo '<h2> '. $name .' </h2>';
                 echo '</div></a>';
                 echo '</div>';
+                echo '</div>';
+
+                // 右滑欄位
+                echo '<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvas' . $id . '" aria-labelledby="offcanvasLabel' . $id . '">';
+                echo '  <div class="offcanvas-header">';
+                echo '    <h5 class="offcanvas-title" id="offcanvasLabel' . $id . '">' . $name . '</h5>';
+                echo '    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>';
+                echo '  </div>';
+                echo '  <div class="offcanvas-body">';
+                echo '    <img src="' . $media . '" alt="' . $name . '" style="width: 100%; object-fit: cover; margin-bottom: 20px;">';
+                echo '    <p>建檔日期: ' . $date . '</p>';
+                echo '    <p>材質: ' . $row['AK_MATERIAL'] . '</p>';
+                echo '    <p>尺寸: 長 ' . $length . ' cm, 寬 ' . $width . ' cm</p>';
+                echo '    <p>落款年: '. (!empty($row['AK_SIGNATURE_Y']) ? $row['AK_SIGNATURE_Y'] . '年' : '無') .'</p>';
+                echo '    <p>落款月: '. (!empty($row['AK_SIGNATURE_M']) ? $row['AK_SIGNATURE_M'] . '月' : '無') .'</p>';
+                echo '    <p>主題:'. (!empty($row['AK_THEME']) ? $row['AK_THEME'] : '無') .'</p>';
+                echo '    <p class = "introduce">介紹: ' . (!empty($row['AK_INTRODUCE']) ? $row['AK_INTRODUCE'] : '無') . '</p>';
+                echo '    <p>存放位置: '. (!empty($row['AK_LOCATION']) ? $row['AK_LOCATION'] : '未知') .'</p>';
+                echo '    <p>交易狀態: '. ($row['AK_STATE'] == 1 ? '已出售' : '未出售') .'</p>';
+                echo '    <p class = "remark">註解: ' . (!empty($row['AK_REMARK']) ? $row['AK_REMARK'] : '無') . '</p>';
+                echo '  </div>';
                 echo '</div>';
 
             }
             if ($category == 'collection') {
+                $id = $row['COL_ID'];
                 $artist = $row['COL_ARTIST'];
                 $name = $row['COL_NAME'];
                 $old_media = isset($row['COL_MEDIA']) ? $row['COL_MEDIA'] : '';
                 $media = str_replace('./', 'php/', $old_media);
+                $size = $row['COL_SIZE'];
+                $size_parts = explode(",", $size);
+                $length = isset($size_parts[0]) ? $size_parts[0] : '未知';
+                $width = isset($size_parts[1]) ? $size_parts[1] : '未知';
                 // 卡片顯示 (大圖示)
                 echo '<div class="col-12 col-md-4 col-xl-3">';
-                echo '<a style="text-decoration:none;color: black;" href="./open_images.html"><div class="box">';
-                echo '<img src="' . $media .'" alt>';
+                echo '<a style="text-decoration:none;color: black;" data-bs-toggle="offcanvas" href="#offcanvas' . $id . '" role="button" aria-controls="offcanvas' . $id . '"><div class="box">';
+                echo '<img style="width: 100%;aspect-ratio: 1/1;object-fit: cover;object-position: center center;height: auto/ 100%;" src="' . $media .'" alt>';
                 echo '<div class="textBox">';
                 echo '<h2> '. $name .' </h2>';
-                echo '<h3> '. $artist .' </h3>';
+                echo '<h5> '. $artist .' </h5>';
                 echo '</div></a>';
                 echo '</div>';
+                echo '</div>';
+
+                // 右滑欄位
+                echo '<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvas' . $id . '" aria-labelledby="offcanvasLabel' . $id . '">';
+                echo '  <div class="offcanvas-header">';
+                echo '    <h5 class="offcanvas-title" id="offcanvasLabel' . $id . '">' . $name . '</h5>';
+                echo '    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>';
+                echo '  </div>';
+                echo '  <div class="offcanvas-body">';
+                echo '    <img src="' . $media . '" alt="' . $name . '" style="width: 100%; object-fit: cover; margin-bottom: 20px;">';
+                echo '    <p>建檔日期: ' . $row['COL_DATE'] . '</p>';
+                echo '    <p>作者: ' . (!empty($artist) ? $artist : '無') . '</p>';
+                echo '    <p>材質: ' . $row['COL_MATERIAL'] . '</p>';
+                echo '    <p>尺寸: 長 ' . $length . ' cm, 寬 ' . $width . ' cm</p>';
+                echo '    <p>落款年: '. (!empty($row['COL_SIGNATURE_Y']) ? $row['COL_SIGNATURE_Y'] . '年' : '無') .'</p>';
+                echo '    <p>落款月: '. (!empty($row['COL_SIGNATURE_M']) ? $row['COL_SIGNATURE_M'] . '月' : '無') .'</p>';
+                echo '    <p>收藏日期: ' . (!empty($row['COL_GET_DATE']) ? $row['COL_GET_DATE'] : '無') . '</p>';
+                echo '    <p>收藏價格: ' . (!empty($row['COL_PRICE']) ? '新台幣 ' . $row['COL_PRICE'] . ' 元' : '未知') . '</p>';
+                echo '    <p class = "introduce">介紹: ' . (!empty($row['COL_INTRODUCE']) ? $row['COL_INTRODUCE'] : '無') . '</p>';
+                echo '    <p>存放位置: '. (!empty($row['COL_LOCATION']) ? $row['COL_LOCATION'] : '未知') .'</p>';
+                echo '    <p>交易狀態: '. ($row['COL_STATE'] == 1 ? '已出售' : '未出售') .'</p>';
+                echo '    <p class = "remark">註解: ' . (!empty($row['COL_REMARK']) ? $row['COL_REMARK'] : '無') . '</p>';
+                echo '  </div>';
                 echo '</div>';
             }
 
