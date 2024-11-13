@@ -58,3 +58,11 @@ WHAT I DID?
 WHAT I NEED TO DO?
 1.查詢其他架設php的方式，使網頁能夠正常運作
 2.把必填欄位這東西搞好，requirment不要的就刪除
+
+2024/11/7
+文檔開發環境:
+XAMPP-v3.3.0
+MYSQL- 8.0.39 - MySQL Community Server - GPL
+Apache-2.4.58 (Win64)
+phpMyAdmin-5.2.1
+PHP-8.2.12

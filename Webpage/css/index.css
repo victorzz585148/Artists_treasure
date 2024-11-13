@@ -1,4 +1,5 @@
 
+
 /* 基本樣式 */
 .navbar {
     background-color: #f8f9fa;
@@ -122,4 +123,61 @@ img{
     word-wrap: break-word;
     max-width: 100%;
     text-align: justify;
+}
+/* end */
+.hidden {
+    display: none;
+}
+.editstate {
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+.insert_title {
+    text-align: center !important;
+    margin-top: 20px !important;
+    margin-bottom: 20px !important;
+    font-size: 2rem;
+    color: #333;
+}
+/* 修改按鈕樣式 */
+.edit-btn {
+    margin-left: 10px;
+    margin-bottom: 10px;
+    background-color: #FFDEAD;
+    color: #000;
+    border: none;
+}
+
+.edit-btn:hover {
+    background-color: #f9ce8e;
+    color: #000;
+}
+.edit-btn:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+/* 刪除按鈕樣式 */
+.delete-btn {
+    margin-left: 10px;
+    margin-bottom: 10px;
+    background-color: #ffb300;
+    
+    color: #000;
+    border: none;
+}
+
+.delete-btn:hover {
+    background-color: #ff7043;
+    color: #000;
+}
+
+.btn-primary.save-btn {
+    background-color: #89b82c;
+    color: #000;
+}
+
+.btn-primary.save-btn:hover {
+    background-color: #acac01;
 }

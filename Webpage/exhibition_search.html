@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>展覽查詢</title>
+    <link href="Bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>展覽紀錄清單</h2>
+        <form class="mt-3">
+            <label for="artworkSelect">搜尋作品:</label>
+            <select id="artworkSelect" name="artworkSelect" class="form-select w-50">
+                <option value="">請選擇作品</option>
+            </select>
+        </form>
+        <br>
+        <table id="exhibitionTable" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>展覽名稱</th>
+                    <th>展覽地點</th>
+                    <th>開始日期</th>
+                    <th>結束日期</th>
+                    <th>詳細資料</th>
+                </tr>
+            </thead>
+            <tbody id="exhibitionTableBody">
+                <!-- 展覽清單由 JS 顯示 -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 展覽詳細資料的 Modal -->
+    <div id="exhibitionModal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">展覽詳細資料</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="exhibitionDetailBody">
+                    <!-- 展覽詳細資料由 JS 顯示 -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">返回</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="javascript/jquery-3.7.1.min.js"></script>
+    <script src="javascript/select2.min.js"></script>
+    <script src="Bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="javascript/exhibition_search.js"></script>
+</body>
+</html>

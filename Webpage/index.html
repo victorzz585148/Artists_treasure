@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>藝術家的藏寶庫</title>
+    <title>藝術家的寶藏庫</title>
     <link href="Bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="index.html">藝術家的藏寶庫</a>
+            <a class="navbar-brand" href="index.html">藝術家的寶藏庫</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -23,7 +24,7 @@
                         <a class="nav-link" href="#">交易管理</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">展出管理</a>
+                        <a class="nav-link" href="exhibition.html">展出管理</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">線上展覽管理</a>
@@ -33,14 +34,6 @@
         </div>
     </nav>
     <div class="container">
-        <!-- 顯示模式切換 -->
-        <div class="view-switch">
-            <input type="radio" id="grid_view" name="view_mode" value="grid" checked onclick="loadItems()">
-            <label for="grid_view" class="btn btn-primary">大圖示</label>
-            <input type="radio" id="list_view" name="view_mode" value="list" onclick="loadItems()">
-            <label for="list_view" class="btn btn-secondary">清單檢視</label>
-        </div>
-
         <!-- 選擇顯示類別 -->
         <form class="mt-3">
             <label for="category">顯示類別:</label>
@@ -51,14 +44,110 @@
         </form>
         <!-- 顯示畫作或收藏品 -->
         <br>
-        <!-- <div class="row">
-            <div class="col-12 col-md-9 col-xl-10 b"> -->
-                <div class="row row-gap-4" id = "items"> 
-                    <!-- 結果將由 display_items.php 來顯示 -->
-                </div>
-            <!-- </div>
-        </div> -->
+        <div class="row row-gap-4" id = "items"> 
+            <!-- 結果將由 display_artwork.php 來顯示 -->
+        </div>
+        <table id="artworksTable" class="display" style="width: 100%">
+            <!-- 結果將由 display_artwork.php 來顯示 -->
+        </table>
     </div>
+    <!-- Modal -->
+    <div id="editModal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="editForm">
+                    <div class="modal-header">
+                        <h5 class="modal-title">修改畫作</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="mb-3 editstate">
+                        <label for="editstate" class="form-label"><span class="required"></span>交易狀態:</label>
+                        <select id = "editselect" name = "editstate" required>
+                            <option disabled hidden name = "editstate">請選擇狀態</option>
+                            <option value="1">已出售</option>
+                            <option value="0">未出售</option>
+                        </select>
+                        <label for="editREPRESENTATIVE" class="form-label"  style="margin-left: 40px"><span class="required">*</span>作品狀態:</label>
+                        <select id = "editREPRESENTATIVE" name = "editREPRESENTATIVE" required>
+                            <option disabled hidden name = "editREPRESENTATIVE">請選擇類別</option>
+                            <option value="1">代表作品</option>
+                            <option value="0">普通作品</option>
+                        </select>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="editArtworkId">
+                        <div class="mb-3">
+                            <div class="mb-3 collection-field hidden">
+                                <label for="editArtist" class="form-label">作者:</label>
+                                <input type="text" class="form-control" id="editArtist" name="editArtist" required>
+                            </div>
+                            <div class="mb-3 artwork-field">
+                                <label for="editName" class="form-label">名稱:</label>
+                                <input type="text" class="form-control" id="editName" name="editName" required>
+                            </div>
+                            <div class="mb-3 artwork-field">
+                                <label for="editMaterial" class="form-label">材質:</label>
+                                <input type="text" class="form-control" id="editMaterial" name="editMaterial" required>
+                            </div>
+                            <div class="mb-3 artwork-field">
+                                <label for="editLength" class="form-label">長:</label>
+                                <input type="number" class="form-control" id="editLength" name="editLength" placeholder="公分" step="0.01" onkeydown="preventE(event)" autocomplete="off" required>
+                            </div>
+                            <div class="mb-3 artwork-field">
+                                <label for="editWidth" class="form-label">寬:</label>
+                                <input type="number" class="form-control" id="editWidth" name="editWidth" placeholder="公分" step="0.01" onkeydown="preventE(event)" autocomplete="off" required>
+                            </div>
+                            <div class="mb-3 artwork-field">
+                                <label for="editYear" class="form-label">落款年:</label>
+                                <input type="number" class="form-control" id="editYear" name="editYear" required>
+                            </div>
+                            <div class="mb-3 artwork-field">
+                                <label for="editMonth" class="form-label">落款月:</label>
+                                <input type="number" class="form-control" id="editMonth" name="editMonth">
+                            </div>
+                            <div class="mb-3 artwork-field">
+                                <label for="editTheme" class="form-label">主題:</label>
+                                <input type="text" class="form-control" id="editTheme" name="editTheme">
+                            </div>
+                            <div class="mb-3 collection-field hidden">
+                                <label for="editDate" class="form-label">收藏日期:</label>
+                                <input type="date" class="form-control" id="editDate" name="editDate" rows="3" autocomplete="off" required>
+                            </div>
+                            <div class="mb-3 collection-field hidden">
+                                <label for="editPrice" class="form-label">收藏價格:</label>
+                                <input type="number" class="form-control" id="editPrice" name="editPrice" rows="3" placeholder="新台幣" autocomplete="off">
+                            </div>
+                            <div class="mb-3 artwork-field">
+                                <label for="editIntroduce" class="form-label">介紹:</label>
+                                <textarea class="form-control" id="editIntroduce" name="editIntroduce" rows="4" cols="40" placeholder="請輸入介紹文字"></textarea>
+                            </div>
+                            <div class="mb-3 artwork-field">
+                                <label for="editLocation" class="form-label" >存放位置:</label>
+                                <input type="text" class="form-control" id="editLocation"  name="editLocation" rows="3" autocomplete="off" required>
+                            </div>
+                            <div class="mb-3 artwork-field">
+                                <label for="editRemark" class="form-label">備註:</label>
+                                <textarea class="form-control" id="editRemark" name="editRemark" rows="4" cols="40" placeholder="請輸入備註"></textarea>
+                            </div>
+                            <div class="mb-3 artwork-field">
+                                <label for="editMedia" class="form-label form_label">預覽圖:</label>
+                                <input type="file" accept="image/*" class="form-control" id="editMedia" name="editMedia" rows="3">
+                                <img id="editPreview" src="" style="margin-top: 10px;">
+                            </div>
+                        </div>
+                        <!-- 其他欄位 -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-primary save-btn">保存修改</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="javascript/jquery-3.7.1.min.js"></script>
+    <script src="javascript/select2.min.js"></script>
     <script src="Bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="javascript/display_artwork.js"></script>
 </body>

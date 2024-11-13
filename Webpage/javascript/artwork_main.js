@@ -1,5 +1,18 @@
 // 開啟時執行
 $(document).ready(function() {
+    // 根據類別顯示或隱藏額外字段
+    $('#type_select').on('change', function() {
+        var selectedValue = $(this).val();
+        if (selectedValue === 'COLLECTION') {
+            $('.extra_fields').removeClass('hidden');
+            $('#REPRESENTATIVE option[value="1"]').prop('disabled', true);
+            $('#REPRESENTATIVE').val('0').trigger('change');
+        } else {
+            $('.extra_fields').addClass('hidden');
+            $('#REPRESENTATIVE option[value="1"]').prop('disabled', false);
+        }
+    });
+    // 初始化 Select2 選單
     $('#type_select').select2({
         placeholder: "請選擇類別",
         minimumResultsForSearch: Infinity,
@@ -16,36 +29,6 @@ $(document).ready(function() {
         width: '150px'
     });
 
-    // 根據類別顯示或隱藏額外字段
-    $('#type_select').on('change', function() {
-        var selectedValue = $(this).val();
-        if (selectedValue === 'COLLECTION') {
-            $('.extra_fields').removeClass('hidden');
-            $('#REPRESENTATIVE option[value="1"]').prop('disabled', true);
-            $('#REPRESENTATIVE').val('0').trigger('change'); // 將作品狀態設為普通作品
-        } else {
-            $('.extra_fields').addClass('hidden');
-            $('#REPRESENTATIVE option[value="1"]').prop('disabled', false);
-        }
-    });
-    // 初始化 Select2 選單
-    $(document).ready(function() {
-        $('#type_select').select2({
-            placeholder: "請選擇類別",
-            minimumResultsForSearch: Infinity,
-            width: '150px'
-        });
-        $('#state_select').select2({
-            placeholder: "請選擇交易狀態",
-            minimumResultsForSearch: Infinity,
-            width: '150px'
-        });
-        $('#REPRESENTATIVE').select2({
-            placeholder: "請選擇交易狀態",
-            minimumResultsForSearch: Infinity,
-            width: '150px'
-        });
-    });
 });
 let isZoomed = false;  // 標誌位，防止重複觸發圖片放大
 // 圖片預覽變更事件
@@ -303,3 +286,5 @@ function preventE(event) {
         event.preventDefault();
     }
 }
+
+

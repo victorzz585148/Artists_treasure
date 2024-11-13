@@ -1,8 +1,7 @@
 <?php
-// header("Access-Control-Allow-Origin: *");
 // 連接到資料庫
 $mysqli = new mysqli("localhost", "root", "Caidsjim2999!", "artists_treasure");
-
+header('Content-Type: application/json; charset=utf-8');
 // 驗證連線
 if ($mysqli->connect_error) {
     die("Connection failed: " . $mysqli->connect_error);
@@ -45,7 +44,10 @@ if ($result->num_rows > 0) {
                 echo '<img style="width: 100%;aspect-ratio: 1/1;object-fit: cover;object-position: center center;height: auto/ 100%;" src="' . $media .'" alt>';
                 echo '<div class="textBox">';
                 echo '<h2> '. $name .' </h2>';
-                echo '</div></a>';
+                echo '</div>';
+                echo '</a>';
+                echo '<button class="btn btn-primary edit-btn" data-bs-toggle="modal" data-bs-target="#editModal" data-id="'. $id .'">修改</button>';
+                echo '<button class="btn btn-danger delete-btn" data-id="' . $id . '">刪除</button>';
                 echo '</div>';
                 echo '</div>';
 
@@ -89,6 +91,8 @@ if ($result->num_rows > 0) {
                 echo '<h2> '. $name .' </h2>';
                 echo '<h5> '. $artist .' </h5>';
                 echo '</div></a>';
+                echo '<button class="btn btn-primary edit-btn" data-bs-toggle="modal" data-bs-target="#editModal" data-id="'. $id .'">修改</button>';
+                echo '<button class="btn btn-danger delete-btn" data-id="' . $id . '">刪除</button>';
                 echo '</div>';
                 echo '</div>';
 
@@ -121,10 +125,7 @@ if ($result->num_rows > 0) {
         echo '</div>'; 
         echo '</div>';
         echo '</div>';// Row end
-    } elseif ($view_mode == 'list') {
-        // 清單顯示
-        
-        }
+    } 
 } else {
     echo "<p>無任何資料。</p>";
 }

@@ -161,3 +161,12 @@ input.optional.is-invalid {
     border-color: initial;
     box-shadow: none;
 }
+
+.btn-primary.save-btn {
+    background-color: #89b82c;
+    color: #000;
+}
+
+.btn-primary.save-btn:hover {
+    background-color: #acac01;
+}
