@@ -181,3 +181,6 @@ img{
 .btn-primary.save-btn:hover {
     background-color: #acac01;
 }
+.ml-10 {
+    margin-left: 20px;
+}

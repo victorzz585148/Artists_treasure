@@ -1,0 +1,98 @@
+<!-- edit_exhibition.html -->
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/select2.min.css" rel="stylesheet" />
+    <link href="Bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/exhibition.css">
+    <link rel="icon" href="data:," />
+    <title>修改展覽</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">藝術家的寶藏庫</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="artwork_main.html">作品管理</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">交易管理</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="exhibition_search.html">展出管理</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">線上展覽管理</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>修改展覽</h1>
+        <form id="editExhibitionForm">
+            <input type="hidden" id="exhibitionId" name="exhibitionId"> <!-- 隱藏欄位儲存展覽 ID -->
+
+            <label for="exhibitionName">展覽名稱：</label>
+            <input type="text" id="exhibitionName" name="exhibitionName" autocomplete="off" required>
+
+            <label for="exhibitionLocation">地點：</label>
+            <input type="text" id="exhibitionLocation" name="exhibitionLocation" autocomplete="off" required>
+
+            <label for="exhibitionOrganizer">主辦單位：</label>
+            <input type="text" id="exhibitionOrganizer" name="exhibitionOrganizer" autocomplete="off" required>
+
+            <label for="exhibitionStart">開始時間：</label>
+            <input type="date" id="exhibitionStart" name="exhibitionStart" autocomplete="off" required>
+
+            <label for="exhibitionEnd">結束時間：</label>
+            <input type="date" id="exhibitionEnd" name="exhibitionEnd" autocomplete="off" required>
+
+            <label for="exhibitionInterduce">展覽介紹：</label>
+            <textarea class="form-control" name="exhibitionInterduce" id="exhibitionInterduce" rows="4" cols="40" placeholder="請輸入展覽介紹"></textarea>
+
+            <label for="exhibitionRemark">備註：</label>
+            <textarea class="form-control" name="exhibitionRemark" id="exhibitionRemark" rows="4" cols="40" placeholder="請輸入備註"></textarea>
+            <div class="form-group">
+                <label for="categorySelect">選擇作品類別：</label>
+                <select id="categorySelect" class="form-control">
+                    <option value="artwork">創作品</option>
+                    <option value="collection">收藏品</option>
+                </select>
+            </div>
+            <label for="exhibitionArtworks">選擇參展作品：</label>
+            <select id="exhibitionArtworks" name="exhibitionArtworks[]" multiple="multiple" style="width: 100%;"></select>
+
+            <div id="selectedArtworksContainer"></div>
+            <br>
+            <button type="button" id="saveEditExhibitionBtn" class="btn btn-primary">保存修改</button>
+            <button type="button" id="cancelEditExhibitionBtn" class="btn btn-secondary">取消</button>
+        </form>
+    </div>
+        <!-- 彈出視窗 -->
+        <div id="customModal" class="custom-modal" style="display: none;">
+            <div class="custom-modal-content">
+                <p id="modalMessage"></p>
+                <div class="custom-modal-buttons">
+                    <button id="confirmBtn">確定</button>
+                    <button id="cancelBtn">取消</button>
+                </div>
+            </div>
+        </div>
+    <input type="hidden" id="exhibitionId" name="id">
+    <script src="javascript/jquery-3.7.1.min.js"></script>
+    <script src="Bootstrap/js/bootstrap.min.js"></script>
+    <script src="javascript/select2.min.js"></script>
+    <script src="javascript/edit_exhibition.js"></script>
+</body>
+</html>

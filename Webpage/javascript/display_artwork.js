@@ -180,7 +180,7 @@ document.getElementById('editForm').addEventListener('submit', async function (e
     }
 });
 });
-let isSubmitting = false; // 用來標誌是否正在進行請求
+let isSubmitting = false;
 
 async function loadItems() {
     if (isSubmitting) {
@@ -199,24 +199,20 @@ async function loadItems() {
     console.log("Sending request with category:", category);
 
     try {
-        // 發送 POST 請求
         const response = await fetch('php/display_artwork.php', {
             method: 'POST',
             body: formData
         });
 
-        // 檢查回應狀態
         if (!response.ok) {
             throw new Error(`Request failed with status ${response.status}`);
         }
-
-        // 解析伺服器的回應內容
         const html = await response.text();
 
         // 更新畫面
         const itemsContainer = document.getElementById("items");
-        itemsContainer.innerHTML = ""; // 清空已有的內容，防止重複渲染
-        itemsContainer.innerHTML = html; // 渲染新內容
+        itemsContainer.innerHTML = "";
+        itemsContainer.innerHTML = html;
 
         // 重新綁定卡片事件
         bindCardClickEvent();
@@ -262,8 +258,6 @@ function bindDeleteButtonEvent() {
     });
 }
 
-// 綁定卡片上的點擊事件
 function bindCardClickEvent() {
-    // 在此加入你需要的卡片點擊事件邏輯
     console.log("Card click event bound.");
 }

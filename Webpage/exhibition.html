@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="css/select2.min.css" rel="stylesheet" />
     <link href="Bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/exhibition.css">
-    <title>新增展覽</title>
+    <link rel="icon" href="data:," />
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -24,7 +26,7 @@
                         <a class="nav-link" href="#">交易管理</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="exhibition.html">展出管理</a>
+                        <a class="nav-link" href="exhibition_search.html">展出管理</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">線上展覽管理</a>
@@ -55,7 +57,7 @@
             <label for="exhibitionInterduce">展覽介紹：</label>
             <textarea class="form-control" name="exhibitionInterduce" id="exhibitionInterduce" rows="4" cols="40" placeholder="請輸入展覽介紹"></textarea>
 
-            <label for="exhibitionRemark">備註：</label>
+            <label for="exhibitionRemark">註解：</label>
             <textarea class="form-control" name="exhibitionRemark" id="exhibitionRemark" rows="4" cols="40" placeholder="請輸入備註"></textarea>
 
             <div class="form-group">
@@ -70,7 +72,8 @@
 
             <div id="selectedArtworksContainer"></div>
             <br>
-            <button type="submit" id="en-btn">儲存</button>
+            <button type="submit" id="en-btn">儲存展覽</button>
+            <button id="cancelBtn" style="background-color: gray;">取消</button>
         </form>
     </div>
     <!-- 彈出視窗 -->
@@ -84,6 +87,8 @@
         </div>
     </div>
     <script src="javascript/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/altEditor/2.0/dataTables.altEditor.free.js"></script>
     <script src="Bootstrap/js/bootstrap.min.js"></script>
     <script src="javascript/select2.min.js"></script>
     <script src="javascript/exhibition.js"></script>

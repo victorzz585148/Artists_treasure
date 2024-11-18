@@ -67,6 +67,8 @@ if ($result->num_rows > 0) {
                 echo '    <p>主題:'. (!empty($row['AK_THEME']) ? $row['AK_THEME'] : '無') .'</p>';
                 echo '    <p class = "introduce">介紹: ' . (!empty($row['AK_INTRODUCE']) ? $row['AK_INTRODUCE'] : '無') . '</p>';
                 echo '    <p>存放位置: '. (!empty($row['AK_LOCATION']) ? $row['AK_LOCATION'] : '未知') .'</p>';
+                echo '    <p>已展覽次數: '. (!empty($row['AK_TIMES']) ? $row['AK_TIMES'] : 0) .'</p>';
+                echo '    <p>已交易次數: '. (!empty($row['AK_RACETIMES']) ? $row['AK_RACETIMES'] : 0) .'</p>';
                 echo '    <p>交易狀態: '. ($row['AK_STATE'] == 1 ? '已出售' : '未出售') .'</p>';
                 echo '    <p class = "remark">註解: ' . (!empty($row['AK_REMARK']) ? $row['AK_REMARK'] : '無') . '</p>';
                 echo '  </div>';
@@ -113,14 +115,14 @@ if ($result->num_rows > 0) {
                 echo '    <p>收藏日期: ' . (!empty($row['COL_GET_DATE']) ? $row['COL_GET_DATE'] : '無') . '</p>';
                 echo '    <p>收藏價格: ' . (!empty($row['COL_PRICE']) ? '新台幣 ' . $row['COL_PRICE'] . ' 元' : '未知') . '</p>';
                 echo '    <p class = "introduce">介紹: ' . (!empty($row['COL_INTRODUCE']) ? $row['COL_INTRODUCE'] : '無') . '</p>';
+                echo '    <p>已展覽次數: '. (!empty($row['COL_TIMES']) ? $row['COL_TIMES'] : 0) .'</p>';
+                echo '    <p>已交易次數: '. (!empty($row['COL_RACETIMES']) ? $row['COL_RACETIMES'] : 0) .'</p>';
                 echo '    <p>存放位置: '. (!empty($row['COL_LOCATION']) ? $row['COL_LOCATION'] : '未知') .'</p>';
                 echo '    <p>交易狀態: '. ($row['COL_STATE'] == 1 ? '已出售' : '未出售') .'</p>';
                 echo '    <p class = "remark">註解: ' . (!empty($row['COL_REMARK']) ? $row['COL_REMARK'] : '無') . '</p>';
                 echo '  </div>';
                 echo '</div>';
             }
-
-
         }
         echo '</div>'; 
         echo '</div>';

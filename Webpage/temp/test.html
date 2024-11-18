@@ -1,0 +1,26 @@
+<form class="mt-3">
+    <label for="category" class="form-label">藝品類別:</label>
+    <select id = "category" name="category" required>
+        <option value="ARTWORK" selected>創作品</option>
+        <option value="COLLECTION">收藏品</option>
+    </select>
+    <label for="artworkSelect" class="ml-10">搜尋作品:</label>
+    <select id="artworkSelect" name="artworkSelect" class="form-select w-50" multiple="multiple">
+        <option value="" multiple="multiple"></option>
+    </select>
+</form>
+<br>
+<table id="exhibitionTable" class="table table-bordered">
+    <thead>
+        <tr>
+            <th>作品名稱</th>
+            <th>展覽名稱</th>
+            <th>開始日期</th>
+            <th>結束日期</th>
+            <th>詳細資料</th>
+        </tr>
+    </thead>
+    <tbody id="exhibitionTableBody">
+        <!-- 展覽清單由 JS 顯示 -->
+    </tbody>
+</table>
