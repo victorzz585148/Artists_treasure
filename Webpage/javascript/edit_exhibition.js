@@ -30,7 +30,7 @@ $(document).ready(function() {
     // 加載展覽資料
     const urlParams = new URLSearchParams(window.location.search);
     const exhibitionId = urlParams.get('id');
-
+    let originalArtworks = []; // 原始參展畫作列表
     if (exhibitionId) {
         $.ajax({
             url: 'php/get_exhibition_details.php',
@@ -46,7 +46,6 @@ $(document).ready(function() {
                 $('#exhibitionEnd').val(exhibition.end_date);
                 $('#exhibitionInterduce').val(exhibition.introduce);
                 $('#exhibitionRemark').val(exhibition.remark);
-
                 // 填充參展作品
                 let selectedArtworks = [];
                 $('#exhibitionArtworks').empty();
@@ -69,6 +68,9 @@ $(document).ready(function() {
                     `);
                 });
                 $('#exhibitionArtworks').val(selectedArtworks).trigger('change');
+                // 初始化原始參展作品列表
+                originalArtworks = [...selectedArtworks]; // 深拷貝以保存初始狀態
+                console.log('初始化原始畫作列表:', originalArtworks);
             },
             error: function() {
                 alert("無法加載展覽資料，請稍後再試。");
@@ -179,6 +181,38 @@ $(document).ready(function() {
         customConfirm(previewText.trim() + "<br><br>是否要繼續保存？", function(result) {
             if (result) {
                 console.log('用戶確認保存');
+
+            // 獲取當前選中的參展畫作
+            let updatedArtworks = $('#exhibitionArtworks').val() || [];
+            console.log("當前畫作列表:",updatedArtworks );
+            // 使用 Set 來比較兩個列表是否相等（忽略順序）
+            let originalSet = new Set(originalArtworks);
+            let updatedSet = new Set(updatedArtworks);
+            console.log("原始畫作列表:", originalArtworks);
+            console.log("更新後的畫作列表:", updatedArtworks);
+            // 檢查是否有變化
+            let isSame = (originalSet.size === updatedSet.size) && [...originalSet].every(id => updatedSet.has(id));
+            
+            if (!isSame) {
+                console.log('畫作列表發生變化，需要更新次數。');
+                
+                // 找出新增的畫作
+                let newArtworks = updatedArtworks.filter(id => !originalSet.has(id));
+                console.log("被新增的畫作列表:", newArtworks);
+                // 找出被移除的畫作
+                let removedArtworks = originalArtworks.filter(id => !updatedSet.has(id));
+                console.log("被移除的畫作列表:", removedArtworks);
+                // 更新次數
+                newArtworks.forEach(function(artworkId) {
+                    updateArtworkTimes(artworkId, 1); // 新增的畫作次數 +1
+                });
+                removedArtworks.forEach(function(artworkId) {
+                    console.log('減少次數的畫作 ID:', artworkId, '變化: -1');
+                    updateArtworkTimes(artworkId, -1); // 被移除的畫作次數 -1
+                });
+            } else {
+                console.log('參展畫作未發生變化，不需要更新次數。');
+            }
                 saveUpdatedExhibition();
             }
         });
@@ -300,6 +334,38 @@ function customAlert(message, callback) {
         $('#customModal').hide();
         if (typeof callback === 'function') {
             callback();  // 確認後執行回調
+        }
+    });
+}
+
+// 用於更新畫作次數的函數
+function updateArtworkTimes(artworkId, increment) {
+    $.ajax({
+        url: 'php/update_artwork_times.php',
+        type: 'POST',
+        data: {
+            id: artworkId,
+            increment: increment
+        },
+        success: function(response) {
+            console.log('畫作 ID:', artworkId, '展覽次數變化:', increment, '伺服器回應:', response);
+
+            // 將伺服器返回的 JSON 字串轉換為對象（如果需要）
+            try {
+                const result = typeof response === 'string' ? JSON.parse(response) : response;
+                if (result.success) {
+                    customAlert(`畫作的展覽次數成功更新 ${increment > 0 ? '增加' : '減少'} 1 次`);
+                } else {
+                    customAlert(`畫作的展覽次數更新失敗：${result.message}`);
+                }
+            } catch (e) {
+                console.error('解析伺服器回應失敗:', e);
+                customAlert('無法解析伺服器回應，請檢查網路狀態或稍後再試。');
+            }
+        },
+        error: function() {
+            console.error('畫作次數更新失敗，畫作 ID:', artworkId);
+            customAlert(`畫作 ${artworkId} 的展覽次數更新失敗，請稍後再試。`);
         }
     });
 }

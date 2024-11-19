@@ -36,6 +36,7 @@
             </div>
         </div>
     </nav>
+
     <div class="container mt-5">
         <h2>展覽紀錄清單</h2>
 
@@ -89,23 +90,21 @@
                 
             </div>
         </div>
-
-        <div id="exhibitionModal" class="modal fade" tabindex="-1">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">展覽詳細資料</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body" id="exhibitionDetailBody"></div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">返回</button>
-                    </div>
+    </div>
+    <div id="exhibitionModal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">展覽詳細資料</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="exhibitionDetailBody"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">返回</button>
                 </div>
             </div>
         </div>
     </div>
-
     <!-- 彈出視窗 -->
     <div id="customModal" class="custom-modal" style="display: none;">
         <div class="custom-modal-content">
@@ -116,7 +115,32 @@
             </div>
         </div>
     </div>
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="artworkOffcanvas" aria-labelledby="offcanvasLabel">
+        <div class="offcanvas-header">
+          <h5 id="offcanvasLabel">作品詳細資料</h5>
+          <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <img id="offcanvasImage" src="" alt="作品圖片" class="img-fluid mb-3">
+          <p id="collectionFields" class="hidden"><strong>作者:</strong> <span id="offcanvasArtist"></span></p>
+          <p><strong>名稱:</strong> <span id="offcanvasName"></span></p>
+          <p><strong>材質:</strong> <span id="offcanvasMaterial"></span></p>
+          <p><strong>尺寸:</strong> 長 <span id="offcanvasLength"></span> 公分, 寬 <span id="offcanvasWidth"></span> 公分</p>
+          <p><strong>落款年:</strong> <span id="offcanvasYear"></span></p>
+          <p><strong>落款月:</strong> <span id="offcanvasMonth"></span></p>
+          <p><strong>主題:</strong> <span id="offcanvasTheme"></span></p>
+          <p id="collectiondate" class="hidden"><strong>收藏日期:</strong> <span id="offcanvasGetDate"></span></p>
+          <p id="collectionprice" class="hidden"><strong>收藏價格:</strong> <span id="offcanvasPrice"></span></p>
+          <p><strong>介紹:</strong> <span id="offcanvasIntroduce"></span></p>
+          <p><strong>存放位置:</strong> <span id="offcanvasLocation"></span></p>
+          <p><strong>已展覽次數:</strong> <span id="offcanvasExhibitCount"></span></p>
+          <p><strong>已交易次數:</strong> <span id="offcanvasTransactionCount"></span></p>
+          <p><strong>交易狀態:</strong> <span id="offcanvasTransactionStatus"></span></p>
+          <p><strong>註解:</strong> <span id="offcanvasRemark"></span></p>
+        </div>
     </div>
+    
+       
     <script src="javascript/jquery-3.7.1.min.js"></script>
     <script src="Bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>

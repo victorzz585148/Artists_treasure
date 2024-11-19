@@ -61,7 +61,7 @@ if ($result->num_rows > 0) {
                 echo '    <img src="' . $media . '" alt="' . $name . '" style="width: 100%; object-fit: cover; margin-bottom: 20px;">';
                 echo '    <p>建檔日期: ' . $date . '</p>';
                 echo '    <p>材質: ' . $row['AK_MATERIAL'] . '</p>';
-                echo '    <p>尺寸: 長 ' . $length . ' cm, 寬 ' . $width . ' cm</p>';
+                echo '    <p>尺寸: 長 ' . $length . ' 公分, 寬 ' . $width . ' 公分</p>';
                 echo '    <p>落款年: '. (!empty($row['AK_SIGNATURE_Y']) ? $row['AK_SIGNATURE_Y'] . '年' : '無') .'</p>';
                 echo '    <p>落款月: '. (!empty($row['AK_SIGNATURE_M']) ? $row['AK_SIGNATURE_M'] . '月' : '無') .'</p>';
                 echo '    <p>主題:'. (!empty($row['AK_THEME']) ? $row['AK_THEME'] : '無') .'</p>';
@@ -109,7 +109,7 @@ if ($result->num_rows > 0) {
                 echo '    <p>建檔日期: ' . $row['COL_DATE'] . '</p>';
                 echo '    <p>作者: ' . (!empty($artist) ? $artist : '無') . '</p>';
                 echo '    <p>材質: ' . $row['COL_MATERIAL'] . '</p>';
-                echo '    <p>尺寸: 長 ' . $length . ' cm, 寬 ' . $width . ' cm</p>';
+                echo '    <p>尺寸: 長 ' . $length . ' 公分, 寬 ' . $width . ' 公分</p>';
                 echo '    <p>落款年: '. (!empty($row['COL_SIGNATURE_Y']) ? $row['COL_SIGNATURE_Y'] . '年' : '無') .'</p>';
                 echo '    <p>落款月: '. (!empty($row['COL_SIGNATURE_M']) ? $row['COL_SIGNATURE_M'] . '月' : '無') .'</p>';
                 echo '    <p>收藏日期: ' . (!empty($row['COL_GET_DATE']) ? $row['COL_GET_DATE'] : '無') . '</p>';

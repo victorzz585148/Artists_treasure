@@ -148,6 +148,12 @@ $(document).ready(function() {
                 data: $(this).serialize(),
                 success: function(response) {
                     if (response) { // 確保有回傳值
+                        //增加展覽次數
+                        const selectedArtworks = $('#exhibitionArtworks').val();
+                        selectedArtworks.forEach(function(artworkId) {
+                            updateArtworkTimes(artworkId, 1);
+                        });
+
                         customAlert('展覽儲存成功！', function() {
                             // 在確認彈出視窗後進行跳轉
                             window.location.href = 'exhibition_search.html';
@@ -233,3 +239,33 @@ function customAlert(message, callback) {
     });
 }
 
+function updateArtworkTimes(artworkId, increment) {
+    $.ajax({
+        url: 'php/update_artwork_times.php',
+        type: 'POST',
+        data: {
+            id: artworkId,
+            increment: increment
+        },
+        success: function(response) {
+            console.log('畫作 ID:', artworkId, '展覽次數變化:', increment, '伺服器回應:', response);
+
+            // 將伺服器返回的 JSON 字串轉換為對象（如果需要）
+            try {
+                const result = typeof response === 'string' ? JSON.parse(response) : response;
+                if (result.success) {
+                    // customAlert(`畫作 ${artworkId} 的展覽次數成功更新 ${increment > 0 ? '增加' : '減少'} 1 次`);
+                } else {
+                    // customAlert(`畫作 ${artworkId} 的展覽次數更新失敗：${result.message}`);
+                }
+            } catch (e) {
+                console.error('解析伺服器回應失敗:', e);
+                customAlert('無法解析伺服器回應，請檢查網路狀態或稍後再試。');
+            }
+        },
+        error: function() {
+            console.error('畫作次數更新失敗，畫作 ID:', artworkId);
+            customAlert(`畫作 ${artworkId} 的展覽次數更新失敗，請稍後再試。`);
+        }
+    });
+}

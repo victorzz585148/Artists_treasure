@@ -238,7 +238,7 @@ $(document).ready(function () {
                 <li>[${typeLabel}] ${artwork.name}
                     <button class="btn btn-primary view-artwork-detail btn-sm" data-id="${artwork.id}">
                         查看詳細
-                    </button>
+                    </button>   
                 </li><br>
             `;
         });
@@ -249,6 +249,7 @@ $(document).ready(function () {
         $('#exhibitionDetailBody').html(detailHtml);
         $('#exhibitionModal').modal('show');
     }
+
     // 綁定刪除按鈕點擊事件
     $('#allExhibitionsTable').on('click', '.delete-exhibition-btn', function () {
         const exhibitionId = $(this).data('id');
@@ -260,36 +261,144 @@ $(document).ready(function () {
         // 顯示確認刪除的彈出視窗
         customConfirm('確定要刪除此展覽嗎？', function (confirmed) {
             if (confirmed) {
-                // 發送 AJAX 請求到 delete_exhibition.php
+                // 先獲取展覽的參展畫作，然後再進行刪除
                 $.ajax({
-                    url: 'php/delete_exhibition.php',
+                    url: 'php/get_exhibition_details.php',
                     type: 'POST',
                     data: { id: exhibitionId },
                     success: function (response) {
                         try {
-                            // 確保回應是 JSON 格式
-                            const res = typeof response === 'string' ? JSON.parse(response) : response;
-                
-                            if (res.success) {
-                                customAlert('展覽已成功刪除！');
-                                $('#allExhibitionsTable').DataTable().ajax.reload(); // 重新加載表格
+                            // 檢查回應是否為 JSON 格式，如果是字串則先解析
+                            const details = typeof response === 'string' ? JSON.parse(response) : response;
+                        
+                            // 輸出伺服器返回的展覽詳細資料，用於檢查
+                            console.log("伺服器返回的展覽詳細資料:", details);
+                        
+                            // 檢查回應中是否存在 artworks 並且是陣列
+                            if (details && 'artworks' in details && Array.isArray(details.artworks)) {
+                                const artworks = details.artworks;
+                            
+                                // 如果有參展畫作，減少次數
+                                if (artworks.length > 0) {
+                                    artworks.forEach(function (artwork) {
+                                        if (artwork && artwork.id) {
+                                            updateArtworkTimes(artwork.id, -1); // 調用減少次數的函數，並傳入畫作 ID 和 -1
+                                        } else {
+                                            console.warn('跳過沒有 ID 的畫作', artwork);
+                                        }
+                                    });
+                                } else {
+                                    console.log('該展覽沒有參展畫作');
+                                }
+                            
+                                // 當減少次數操作完成後，再進行展覽的刪除
+                                deleteExhibition(exhibitionId);
                             } else {
-                                customAlert(res.message || '刪除展覽失敗');
+                                // 如果 artworks 不存在或者不是陣列，則顯示錯誤信息
+                                console.error('無法找到 artworks 或者其不是有效的陣列');
+                                customAlert('無法刪除展覽，因為未能獲取參展畫作。');
                             }
                         } catch (error) {
+                            // 捕獲 JSON 解析失敗的錯誤
                             console.error('解析伺服器回應失敗：', error);
-                            customAlert('刪除展覽時發生錯誤，請稍後再試。');
+                            customAlert('無法獲取展覽詳細資料，請稍後再試。');
                         }
                     },
                     error: function () {
-                        console.error('無法刪除展覽');
-                        customAlert('刪除展覽時發生錯誤，請稍後再試。');
+                        console.error('無法加載展覽詳細資料');
+                        customAlert('無法加載展覽詳細資料，請稍後再試。');
                     }
                 });
-                
             }
         });
     });
+
+
+    // 畫作詳細資料
+    $('#exhibitionModal').on('click', '.view-artwork-detail', async function () {
+        const artworkId = $(this).data('id');
+    
+        // Determine the type of artwork based on ID prefix
+        let category = '';
+        if (artworkId.startsWith('AK')) {
+            category = 'artwork';
+        } else if (artworkId.startsWith('COL')) {
+            category = 'collection';
+        }
+    
+        try {
+            // Send request to PHP to get artwork or collection details
+            const response = await fetch('php/display_exhibition_artwork_detail.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `id=${artworkId}`
+            });
+    
+            if (response.ok) {
+                const data = await response.json();
+                if (data.success) {
+                    // Display data in the offcanvas
+                    document.getElementById('offcanvasName').textContent = data.data.AK_NAME || data.data.COL_NAME || 'N/A';
+                    document.getElementById('offcanvasMaterial').textContent = data.data.AK_MATERIAL || data.data.COL_MATERIAL || 'N/A';
+                    document.getElementById('offcanvasLength').textContent = data.data.AK_SIZE?.split(",")[0] || data.data.COL_SIZE?.split(",")[0] || 'N/A';
+                    document.getElementById('offcanvasWidth').textContent = data.data.AK_SIZE?.split(",")[1] || data.data.COL_SIZE?.split(",")[1] || 'N/A';
+                    document.getElementById('offcanvasYear').textContent = data.data.AK_SIGNATURE_Y || data.data.COL_SIGNATURE_Y || 'N/A';
+                    document.getElementById('offcanvasMonth').textContent = data.data.AK_SIGNATURE_M || data.data.COL_SIGNATURE_M || 'N/A';
+                    document.getElementById('offcanvasTheme').textContent = data.data.AK_THEME || data.data.COL_THEME || 'N/A';
+                    document.getElementById('offcanvasIntroduce').textContent = data.data.AK_INTRODUCE || data.data.COL_INTRODUCE || 'N/A';
+                    document.getElementById('offcanvasLocation').textContent = data.data.AK_LOCATION || data.data.COL_LOCATION || 'N/A';
+                    document.getElementById('offcanvasArtist').textContent = data.data.COL_ARTIST || 'N/A';
+                    document.getElementById('offcanvasGetDate').textContent = data.data.COL_GET_DATE || 'N/A';
+                    document.getElementById('offcanvasPrice').textContent = data.data.COL_PRICE || 'N/A';
+                    // Additional fields for detailed artwork information
+                    document.getElementById('offcanvasExhibitCount').textContent = data.data.AK_TIMES || data.data.COL_TIMES || '0';
+                    document.getElementById('offcanvasTransactionCount').textContent = data.data.AK_RACETIMES || '0';
+                    document.getElementById('offcanvasTransactionStatus').textContent = data.data.TRANSACTION_STATUS || '未出售';
+                    document.getElementById('offcanvasRemark').textContent = data.data.REMARK || '無';
+    
+                    // Display image
+                    document.getElementById('offcanvasImage').src = data.data.AK_MEDIA || data.data.COL_MEDIA || 'default.png';
+    
+                    // 當你需要顯示或隱藏收藏品相關欄位時：
+                    if (category === 'collection') {
+                        // 顯示與收藏品相關的欄位
+                        document.getElementById('collectionFields').classList.remove('hidden');
+                        document.getElementById('collectiondate').classList.remove('hidden');
+                        document.getElementById('collectionprice').classList.remove('hidden');
+                    } else {
+                        // 隱藏與收藏品相關的欄位
+                        document.getElementById('collectionFields').classList.add('hidden');
+                        document.getElementById('collectiondate').classList.add('hidden');
+                        document.getElementById('collectionprice').classList.add('hidden');
+                    }
+
+
+    
+                    // Hide the exhibition modal
+                    $('#exhibitionModal').modal('hide');
+    
+                    // Show the offcanvas
+                    const offcanvasElement = document.getElementById('artworkOffcanvas');
+                    const offcanvas = new bootstrap.Offcanvas(offcanvasElement);
+                    offcanvas.show();
+    
+                    // When the offcanvas is hidden, bring back the exhibition modal
+                    offcanvasElement.addEventListener('hidden.bs.offcanvas', function () {
+                        $('#exhibitionModal').modal('show');
+                    });
+                } else {
+                    alert('無法獲取作品信息：' + data.message);
+                }
+            } else {
+                alert('無法獲取作品信息，請稍後重試。');
+            }
+        } catch (error) {
+            console.error('獲取作品信息失敗', error);
+        }
+    });
+
 });
 document.getElementById('searchCategory').addEventListener('change', function () {
     const searchCategory = this.value;
@@ -344,6 +453,75 @@ function customAlert(message, callback) {
         $('#customModal').hide();
         if (typeof callback === 'function') {
             callback();  // 確認後執行回調
+        }
+    });
+}
+
+
+// 打開側邊欄
+function openSidebar() {
+    document.getElementById('artworkDetailSidebar').classList.add('open');
+}
+
+// 關閉側邊欄
+function closeSidebar() {
+    document.getElementById('artworkDetailSidebar').classList.remove('open');
+}
+
+function updateArtworkTimes(artworkId, increment) {
+    $.ajax({
+        url: 'php/update_artwork_times.php',
+        type: 'POST',
+        data: {
+            id: artworkId,
+            increment: increment
+        },
+        success: function(response) {
+            console.log('畫作 ID:', artworkId, '展覽次數變化:', increment, '伺服器回應:', response);
+
+            // 將伺服器返回的 JSON 字串轉換為對象（如果需要）
+            try {
+                const result = typeof response === 'string' ? JSON.parse(response) : response;
+                if (result.success) {
+                    customAlert(`畫作的展覽次數成功更新 ${increment > 0 ? '增加' : '減少'} 1 次`);
+                } else {
+                    customAlert(`畫作的展覽次數更新失敗：${result.message}`);
+                }
+            } catch (e) {
+                console.error('解析伺服器回應失敗:', e);
+                customAlert('無法解析伺服器回應，請檢查網路狀態或稍後再試。');
+            }
+        },
+        error: function() {
+            console.error('畫作次數更新失敗，畫作 ID:', artworkId);
+            customAlert(`畫作 ${artworkId} 的展覽次數更新失敗，請稍後再試。`);
+        }
+    });
+}
+// 刪除展覽函數
+function deleteExhibition(exhibitionId) {
+    $.ajax({
+        url: 'php/delete_exhibition.php',
+        type: 'POST',
+        data: { id: exhibitionId },
+        success: function (response) {
+            try {
+                const res = typeof response === 'string' ? JSON.parse(response) : response;
+
+                if (res.success) {
+                    customAlert('展覽已成功刪除！');
+                    $('#allExhibitionsTable').DataTable().ajax.reload(); // 重新加載表格
+                } else {
+                    customAlert(res.message || '刪除展覽失敗');
+                }
+            } catch (error) {
+                console.error('解析伺服器回應失敗：', error);
+                customAlert('刪除展覽時發生錯誤，請稍後再試。');
+            }
+        },
+        error: function () {
+            console.error('無法刪除展覽');
+            customAlert('刪除展覽時發生錯誤，請稍後再試。');
         }
     });
 }
