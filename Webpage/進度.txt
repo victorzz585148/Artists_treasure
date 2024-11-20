@@ -1,0 +1,1 @@
+目前在做edittrade.js的內容，調整到get_trade_details.php的那一行，現在在修改get_trade_details.php中

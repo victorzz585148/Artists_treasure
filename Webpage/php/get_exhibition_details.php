@@ -74,13 +74,54 @@ $stmtArtworks->execute();
 $resultArtworks = $stmtArtworks->get_result();
 
 // 添加創作品和收藏品到展覽詳細資料中
-while ($row = $resultArtworks->fetch_assoc()) {
-    $details['artworks'][] = $row;
+$artworks = [];
+    while ($row = $resultArtworks->fetch_assoc()) {
+        $artworks[] = [
+            'id' => $row['id'],
+            'name' => $row['name'],
+            'type' => $row['type']
+        ];
+    }
+//抓別名
+    $queryAdditional = "
+    SELECT 
+        ed.AK_ID AS id, 
+        ed.END_NAME AS alias 
+    FROM 
+        exhibitiondetail ed
+    WHERE 
+        ed.EN_ID = ?
+    UNION
+    SELECT 
+        ed.COL_ID AS id, 
+        ed.END_NAME AS alias 
+    FROM 
+        exhibitiondetail ed
+    WHERE 
+        ed.EN_ID = ?
+";
+$stmtAdditional = $mysqli->prepare($queryAdditional);
+if ($stmtAdditional === false) {
+    die(json_encode(["success" => false, "message" => "SQL 語句準備失敗：" . $mysqli->error]));
+}
+$stmtAdditional->bind_param('ss', $exhibitionId, $exhibitionId);
+$stmtAdditional->execute();
+$resultAdditional = $stmtAdditional->get_result();
+while ($row = $resultAdditional->fetch_assoc()) {
+    // 將新的別名數據加入已有的 artworks 陣列中
+    foreach ($artworks as &$artwork) {
+        if ($artwork['id'] === $row['id']) {
+            $artwork['alias'] = $row['alias'];
+        }
+    }
 }
 }
+
+$details['artworks'] = $artworks;
 // 返回 JSON 結果
 echo json_encode($details);
 
 // 關閉資源
+$stmtAdditional->close();
 $stmtArtworks->close();
 $mysqli->close();

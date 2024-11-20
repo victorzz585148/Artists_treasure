@@ -1,0 +1,219 @@
+.navbar {
+    background-color: #f8f9fa;
+    padding: 1rem;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.navbar-nav .nav-link {
+    color: #000;
+    font-size: 1.2rem;
+    margin-right: 1rem;
+    position: relative;
+    transition: color 0.3s ease-in-out;
+}
+
+/* 動畫效果 */
+.navbar-nav .nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #000;
+    transition: width 0.3s ease-in-out;
+}
+
+/* 滑鼠懸停效果 */
+.navbar-nav .nav-link:hover {
+    color: #007bff;
+}
+
+.navbar-nav .nav-link:hover::after {
+    width: 100%;
+}
+
+/* 按鈕動畫 */
+.navbar-toggler {
+    border-color: rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.navbar-toggler:hover {
+    transform: rotate(90deg);
+}
+
+/* 導覽列的背景顏色漸變 */
+.navbar {
+    animation: backgroundColorChange 5s infinite alternate;
+}
+
+.body {
+    overflow-y: hidden;
+}
+
+@keyframes backgroundColorChange {
+    0% {
+        background-color: #f8f9fa;
+    }
+    100% {
+        background-color: #e9ecef;
+    }
+}
+body{
+    background-color: #eee;
+}
+img{
+    width: 100%;
+}
+.col-12{
+    padding: 5px;
+}
+.box{
+    background-color: white;
+    border: 1px solid black;
+    height: 100%;
+    /* filter: grayscale(1); */
+    cursor: pointer;
+    transition: .3s;
+}
+.box:hover{
+    /* filter: grayscale(0); */
+    background-color: lavender;
+}
+.textBox{
+    padding: 10px;
+}
+.offcanvas-body {
+    overflow-y: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.offcanvas-body::-webkit-scrollbar {
+    display: none;
+}
+
+.offcanvas-header{
+    background-color: lightgray;
+}
+.offcanvas {
+    padding: 0;
+}
+.remark {
+    text-indent: -2.5em;
+    margin-bottom: 20px;
+    padding-left: 2.5em;
+    word-wrap: break-word;
+    max-width: 100%;
+    text-align: justify;
+}
+
+.introduce {
+    text-indent: -2.5em;
+    margin-bottom: 20px;
+    padding-left: 2.5em;
+    word-wrap: break-word;
+    max-width: 100%;
+    text-align: justify;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+}
+
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px rgba(0,0,0,0.1);
+}
+
+label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+input[type="text"], input[type="date"], select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+button {
+    padding: 10px 15px;
+    border: none;
+    background-color: #007bff;
+    color: #ffffff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button#previewButton {
+    background-color: #ff9900;
+    margin-right: 10px;
+}
+
+.remove-artwork-btn {
+    font-size: 12px;
+    margin-left: 10px;
+    padding: 2px 5px;
+}
+.artwork-header {
+    display: inline-flex;
+    align-items: center;
+}
+
+.artwork-header label {
+    margin-right: 10px; /* 控制作品名稱與按鈕之間的距離 */
+}
+
+.remove-artwork-btn {
+    font-size: 12px; /* 控制按鈕字體大小，使其更小 */
+    padding: 2px 8px; /* 控制按鈕的內邊距 */
+    margin-top: 6px;
+}
+
+
+/* 彈出視窗 */
+.custom-modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.custom-modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    width: 300px;
+}
+
+.custom-modal-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.custom-modal-buttons button {
+    padding: 10px 20px;
+    cursor: pointer;
+}
+/* END */

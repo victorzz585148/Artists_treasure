@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>展覽查詢</title>
+    <title>展覽管理</title>
     <link href="Bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
     <link href="css/select2.min.css" rel="stylesheet" />
@@ -24,10 +24,13 @@
                         <a class="nav-link active" aria-current="page" href="artwork_main.html">作品管理</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">交易管理</a>
+                        <a class="nav-link" href="trade.html">交易管理</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="exhibition_search.html">展出管理</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contest.html">賽事管理</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">線上展覽管理</a>
@@ -38,25 +41,9 @@
     </nav>
 
     <div class="container mt-5">
-        <h2>展覽紀錄清單</h2>
-
-        <!-- <ul class="nav nav-tabs mt-3" id="exhibitionTabs">
-            <li class="nav-item">
-                <a class="nav-link active" id="all-exhibitions-tab" data-bs-toggle="tab" href="#all-exhibitions">所有展覽</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="search-exhibitions-tab" data-bs-toggle="tab" href="#search-exhibitions">搜尋展覽</a>
-            </li>
-        </ul> -->
+        <h2>展覽紀錄</h2>
         <br>
         <div style="display: flex; align-items: center; gap: 15px; max-width: 800px; margin-bottom: 20px;">
-            <!-- <div style="display: flex; align-items: center; gap: 10px;">
-                <label for="category" class="form-label" style="margin: 0;">藝品類別:</label>
-                <select id="category" name="category" required disabled style="background-color: #f8f9fa; border: 1px solid #ced4da; padding: 5px; border-radius: 4px;">
-                    <option value="ARTWORK" selected>創作品</option>
-                    <option value="COLLECTION">收藏品</option>
-                </select>
-            </div> -->
             <div class="input-group">
                 <select class="form-select" id="searchCategory" style="flex: 1; max-width: 150px;">
                     <option value="EN_NAME">展覽名稱</option>

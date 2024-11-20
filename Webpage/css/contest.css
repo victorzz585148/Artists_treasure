@@ -1,0 +1,157 @@
+/* 隱藏清空所有選項的大 (X) 按鈕 */
+.select2-container--default .select2-selection--multiple .select2-selection__clear {
+    display: none;
+}
+
+.table {
+    table-layout: fixed;
+    width: 100%; 
+}
+.table th, .table td {
+    text-align: center;
+    word-wrap: break-word; /* 自動換行 */
+    word-break: break-word; /* 強制單詞換行 */
+    white-space: normal; /* 允許換行 */
+}
+
+.table th:first-child, .table td:first-child {
+    width: 300px;
+}
+
+.table th:nth-child(2), .table td:nth-child(2) {
+    width: 200px;
+}
+
+.table th:last-child, .table td:last-child {
+    width: 150px;
+}
+/* introduce縮排 */
+.exhibition-intro {
+    text-indent: 2em; /* 首行縮排 2em */
+    margin-top: 10px; /* 與上方段落間距 */
+    line-height: 1.6; /* 增加行高，改善可讀性 */
+    text-align: justify; /* 文字對齊兩邊 */
+}
+
+.nav-tabs .nav-link {
+    color: #495057;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-bottom: none;
+    margin-right: 2px;
+}
+
+.nav-tabs .nav-link.active {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff #007bff #fff;
+}
+.input-group {
+    display: flex;
+    align-items: center;
+    width: 60%;
+}
+
+.input-group .form-select {
+    border-radius: 0.25rem 0 0 0.25rem; /* 左側圓角 */
+    flex: 1;
+    min-width: 120px;
+}
+
+.input-group .form-control {
+    border-radius: 0 0.25rem 0.25rem 0; /* 右側圓角 */
+    flex: 3;
+}
+#all-exhibitions-tab {
+    z-index: 1;
+    position: relative;
+}
+
+#search-exhibitions-tab {
+    z-index: 2;
+    position: relative;
+}
+.tab-pane {
+    display: none;
+}
+.tab-pane.active {
+    display: block;
+}
+#allExhibitionsTable th, #allExhibitionsTable td{
+    text-align: center;
+    vertical-align: middle;
+}
+
+/* 彈出視窗 */
+.custom-modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.custom-modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    width: 300px;
+}
+
+.custom-modal-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.custom-modal-buttons button {
+    padding: 10px 20px;
+    cursor: pointer;
+}
+/* END */
+
+/* 右側滑出的側邊欄 */
+.sidebar {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    top: 0;
+    right: 0;
+    background-color: #fff;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.5);
+    overflow: hidden;
+    transition: 0.5s;
+    padding: 20px;
+    z-index: 1000;
+}
+
+.sidebar.open {
+    width: 400px; /* 展開時的寬度 */
+}
+
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    font-size: 36px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+#artworkDetailOffcanvas {
+    z-index: 3001;  /* 確保這個值比其他模態框的 z-index 更高 */
+}
+
+#exhibitionModal {
+    z-index: 3000;  /* 確保這個值比其他模態框的 z-index 更高 */
+}
+.hidden {
+    display: none;
+}

@@ -34,7 +34,7 @@ $introduce = $data['introduce'] ?? null;
 $remark = $data['remark'] ?? null;
 $artworks = isset($data['artworks']) ? $data['artworks'] : [];
 $aliases = isset($data['aliases']) ? $data['aliases'] : [];
-
+$artworkCount = count($artworks);
 // 確認必填欄位是否都存在
 if (!$name || !$startDate || !$endDate || !$location || !$organizer) {
     $response["message"] = "部分必要欄位未填寫，請檢查表單。";
@@ -43,7 +43,7 @@ if (!$name || !$startDate || !$endDate || !$location || !$organizer) {
 }
 
 // 更新展覽的基本信息
-$updateExhibitionQuery = "UPDATE exhibition SET EN_NAME = ?, EN_START = ?, EN_FINISH = ?, EN_LOCATION = ?, EN_ORGANIZER = ?, EN_INTRODUCE = ?, EN_REMARK = ? WHERE EN_ID = ?";
+$updateExhibitionQuery = "UPDATE exhibition SET EN_NAME = ?, EN_START = ?, EN_FINISH = ?, EN_LOCATION = ?, EN_ORGANIZER = ?, EN_ITEM = ?, EN_INTRODUCE = ?, EN_REMARK = ? WHERE EN_ID = ?";
 $stmt = $conn->prepare($updateExhibitionQuery);
 
 if (!$stmt) {
@@ -52,7 +52,7 @@ if (!$stmt) {
     exit;
 }
 
-$stmt->bind_param("ssssssss", $name, $startDate, $endDate, $location, $organizer, $introduce, $remark, $exhibitionId);
+$stmt->bind_param("sssssisss", $name, $startDate, $endDate, $location, $organizer, $artworkCount, $introduce, $remark, $exhibitionId);
 
 if ($stmt->execute()) {
     // 刪除現有的參展作品
@@ -69,19 +69,34 @@ if ($stmt->execute()) {
     $stmtDelete->execute();
 
     // 新增更新後的參展作品
-    $insertArtworkQuery = "INSERT INTO EXHIBITIONDETAIL (EN_ID, AK_ID, END_NAME) VALUES (?, ?, ?)";
-    $stmtInsert = $conn->prepare($insertArtworkQuery);
-
-    if (!$stmtInsert) {
-        $response["message"] = "無法準備插入參展作品：" . $conn->error;
-        echo json_encode($response);
-        exit;
-    }
-
+    // 判斷 artworkId 的前綴並決定對應的欄位
     foreach ($artworks as $artworkId) {
-        $alias = isset($aliases[$artworkId]) ? $aliases[$artworkId] : null;
-        $stmtInsert->bind_param("sss", $exhibitionId, $artworkId, $alias);
-        $stmtInsert->execute();
+        $alias = $aliases[$artworkId] ?? '';
+    
+        if (strpos($artworkId, 'AK') === 0) {
+            // 插入作品 ID
+            $stmtInsert = $conn->prepare("INSERT INTO `EXHIBITIONDETAIL` (EN_ID, AK_ID, END_NAME) VALUES (?, ?, ?)");
+            if ($stmtInsert === false) {
+                die(json_encode(["success" => false, "message" => "SQL 準備語句失敗：" . $conn->error]));
+            }
+            $stmtInsert->bind_param('sss', $exhibitionId, $artworkId, $alias);
+        } elseif (strpos($artworkId, 'COL') === 0) {
+            // 插入收藏 ID
+            $stmtInsert = $conn->prepare("INSERT INTO `EXHIBITIONDETAIL` (EN_ID, COL_ID, END_NAME) VALUES (?, ?, ?)");
+            if ($stmtInsert === false) {
+                die(json_encode(["success" => false, "message" => "SQL 準備語句失敗：" . $conn->error]));
+            }
+            $stmtInsert->bind_param('sss', $exhibitionId, $artworkId, $alias);
+        } else {
+            die(json_encode(["success" => false, "message" => "無效的輸入：ID 必須以 AK 或 COL 開頭。"]));
+        }
+    
+        // 執行插入語句
+        if (!$stmtInsert->execute()) {
+            die(json_encode(["success" => false, "message" => "插入展覽細節失敗：" . $stmtInsert->error]));
+        }
+    
+        $stmtInsert->close();
     }
 
     $response["success"] = true;
@@ -93,7 +108,6 @@ if ($stmt->execute()) {
 // 關閉資料庫連接
 $stmt->close();
 $stmtDelete->close();
-$stmtInsert->close();
 $conn->close();
 
 // 返回 JSON 格式的響應

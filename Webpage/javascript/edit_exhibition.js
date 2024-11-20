@@ -50,7 +50,7 @@ $(document).ready(function() {
                 let selectedArtworks = [];
                 $('#exhibitionArtworks').empty();
                 $('#selectedArtworksContainer').empty(); // 清空之前的顯示容器
-
+                $('#alias').val(exhibition.alias)
                 exhibition.artworks.forEach(function(artwork) {
                     $('#exhibitionArtworks').append(new Option(artwork.name, artwork.id, true, true));
                     selectedArtworks.push(artwork.id);
@@ -122,39 +122,46 @@ $(document).ready(function() {
         // 構造確認信息的文本
         let previewText = '請確認以下資料是否正確：<br><br>';
         let hasEmptyFields = false;
-    
-        // 定義欄位名稱的對應字典
-        const fieldLabels = {
-            'exhibitionName': '展覽名稱',
-            'exhibitionLocation': '地點',
-            'exhibitionOrganizer': '主辦單位',
-            'exhibitionStart': '開始時間',
-            'exhibitionEnd': '結束時間',
-            'exhibitionInterduce': '展覽介紹', // 非必填
-            'exhibitionRemark': '備註',         // 非必填
-            'exhibitionArtworks[]': '參展作品'
-        };
-    
         // 檢查必填欄位是否填寫
+        // 定義必填欄位
         const requiredFields = [
             { selector: '#exhibitionName', label: '展覽名稱' },
             { selector: '#exhibitionLocation', label: '地點' },
             { selector: '#exhibitionOrganizer', label: '主辦單位' },
             { selector: '#exhibitionStart', label: '開始時間' },
-            { selector: '#exhibitionEnd', label: '結束時間' }
+            { selector: '#exhibitionEnd', label: '結束時間' },
         ];
-    
+
+        // 定義所有需要顯示的欄位（包括非必填）
+        const allFields = [
+            { selector: '#exhibitionName', label: '展覽名稱' },
+            { selector: '#exhibitionLocation', label: '地點' },
+            { selector: '#exhibitionOrganizer', label: '主辦單位' },
+            { selector: '#exhibitionStart', label: '開始時間' },
+            { selector: '#exhibitionEnd', label: '結束時間' },
+            { selector: '#exhibitionInterduce', label: '展覽介紹' },
+            { selector: '#exhibitionRemark', label: '備註' }
+        ];
+
         // 遍歷每個必填欄位，檢查是否為空
         requiredFields.forEach(function(field) {
             const value = $(field.selector).val().trim();
             if (value === '') {
-                console.log(`必填欄位未填寫: ${field.label}`);
+                console.log(`必填欄位未填寫: ${field.label}`); // 這行可以檢查未填寫的欄位
                 hasEmptyFields = true;
-                previewText += `${field.label}: （未填寫）<br>`;
+            }
+        });
+
+        // 遍歷所有欄位，生成預覽文字
+        allFields.forEach(function(field) {
+            const value = $(field.selector).val().trim();
+            if (value === '') {
+                previewText += `${field.label}: 無<br>`;
             } else {
                 previewText += `${field.label}: ${value}<br>`;
             }
         });
+
         // 檢查參展作品是否選擇了至少一個
         const selectedArtworks = $('#exhibitionArtworks option:selected');
         if (!selectedArtworks || selectedArtworks.length === 0) {
@@ -354,9 +361,9 @@ function updateArtworkTimes(artworkId, increment) {
             try {
                 const result = typeof response === 'string' ? JSON.parse(response) : response;
                 if (result.success) {
-                    customAlert(`畫作的展覽次數成功更新 ${increment > 0 ? '增加' : '減少'} 1 次`);
+                    // customAlert(`畫作的展覽次數成功更新 ${increment > 0 ? '增加' : '減少'} 1 次`);
                 } else {
-                    customAlert(`畫作的展覽次數更新失敗：${result.message}`);
+                    // customAlert(`畫作的展覽次數更新失敗：${result.message}`);
                 }
             } catch (e) {
                 console.error('解析伺服器回應失敗:', e);

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>交易管理</title>
+    <link href="Bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <link href="css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/trade.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="icon" href="data:," />
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">藝術家的寶藏庫</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="artwork_main.html">作品管理</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="trade.html">交易管理</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="exhibition_search.html">展出管理</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contest.html">賽事管理</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">線上展覽管理</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h2>交易紀錄</h2>
+        <br>
+        <div style="display: flex; align-items: center; gap: 15px; max-width: 800px; margin-bottom: 20px;"> 
+            <div class="input-group">
+                <select class="form-select" id="searchCategory" style="flex: 1; max-width: 150px;">
+                    <option value="TDE_PLACE">販售地點</option>
+                    <option value="TDE_DATE">販售日期</option>
+                    <option value="TDE_BUYER">收購人</option>
+                    <option value="TDE_SELLER">經手人</option>
+                    <option value="TDED">作品名稱</option>
+                </select>
+                <input type="text" class="form-control" id="searchQuery" placeholder="輸入搜尋關鍵字" style="flex: 3;">
+                <button class="btn btn-primary" id="searchButton">搜尋</button>
+            </div>
+            <a href="./addtrade.html" class="btn btn-primary">新增交易</a>
+        </div>
+                <table id="allExhibitionsTable" class="display table table-bordered mt-3">
+                    <thead>
+                        <tr>
+                            <th>販售地點</th>
+                            <th>販售日期</th>
+                            <th>收購人</th>
+                            <th>詳細資料</th>
+                            <th>修改</th>
+                            <th>刪除</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="tab-pane fade" id="search-exhibitions">
+
+                
+            </div>
+        </div>
+    </div>
+    <div id="exhibitionModal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">交易詳細資料</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="exhibitionDetailBody"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">返回</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 彈出視窗 -->
+    <div id="customModal" class="custom-modal" style="display: none;">
+        <div class="custom-modal-content">
+            <p id="modalMessage"></p>
+            <div class="custom-modal-buttons">
+                <button id="confirmBtn">確定</button>
+                <button id="cancelBtn">取消</button>
+            </div>
+        </div>
+    </div>
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="artworkOffcanvas" aria-labelledby="offcanvasLabel">
+        <div class="offcanvas-header">
+          <h5 id="offcanvasLabel">作品詳細資料</h5>
+          <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <img id="offcanvasImage" src="" alt="作品圖片" class="img-fluid mb-3">
+          <p id="collectionFields" class="hidden"><strong>作者:</strong> <span id="offcanvasArtist"></span></p>
+          <p><strong>名稱:</strong> <span id="offcanvasName"></span></p>
+          <p><strong>材質:</strong> <span id="offcanvasMaterial"></span></p>
+          <p><strong>尺寸:</strong> 長 <span id="offcanvasLength"></span> 公分, 寬 <span id="offcanvasWidth"></span> 公分</p>
+          <p><strong>落款年:</strong> <span id="offcanvasYear"></span></p>
+          <p><strong>落款月:</strong> <span id="offcanvasMonth"></span></p>
+          <p><strong>主題:</strong> <span id="offcanvasTheme"></span></p>
+          <p id="collectiondate" class="hidden"><strong>收藏日期:</strong> <span id="offcanvasGetDate"></span></p>
+          <p id="collectionprice" class="hidden"><strong>收藏價格:</strong> <span id="offcanvasPrice"></span></p>
+          <p><strong>介紹:</strong> <span id="offcanvasIntroduce"></span></p>
+          <p><strong>存放位置:</strong> <span id="offcanvasLocation"></span></p>
+          <p><strong>已展覽次數:</strong> <span id="offcanvasExhibitCount"></span></p>
+          <p><strong>已交易次數:</strong> <span id="offcanvasTransactionCount"></span></p>
+          <p><strong>交易狀態:</strong> <span id="offcanvasTransactionStatus"></span></p>
+          <p><strong>註解:</strong> <span id="offcanvasRemark"></span></p>
+        </div>
+    </div>
+    
+       
+    <script src="javascript/jquery-3.7.1.min.js"></script>
+    <script src="Bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="javascript/select2.min.js"></script>
+    <script src="javascript/trade.js"></script>
+</body>
+</html>
